@@ -159,27 +159,47 @@ class Mai_AEC_Fields {
 		) );
 
 		$cmb->add_field( array(
-			'name'	=> __( 'Before Header', 'mai-aec' ),
-			'id'	=> 'mai_ad_header_before',
-			'type'	=> 'textarea_code',
+			'name'		=> __( 'Before Header', 'mai-aec' ),
+			'id'		=> 'mai_ad_header_before',
+			'type'		=> 'wysiwyg',
+			'options'	=> array(
+				'wpautop'		=> true,
+				'media_buttons'	=> true,
+				'textarea_rows'	=> 6,
+			),
 		) );
 
 		$cmb->add_field( array(
-			'name'	=> __( 'Header Left', 'mai-aec' ),
-			'id'	=> 'mai_ad_header_left',
-			'type'	=> 'textarea_code',
+			'name'		=> __( 'Header Left', 'mai-aec' ),
+			'id'		=> 'mai_ad_header_left',
+			'type'		=> 'wysiwyg',
+			'options'	=> array(
+				'wpautop'		=> true,
+				'media_buttons'	=> true,
+				'textarea_rows'	=> 6,
+			),
 		) );
 
 		$cmb->add_field( array(
-			'name'	=> __( 'Header Right', 'mai-aec' ),
-			'id'	=> 'mai_ad_header_right',
-			'type'	=> 'textarea_code',
+			'name'		=> __( 'Header Right', 'mai-aec' ),
+			'id'		=> 'mai_ad_header_right',
+			'type'		=> 'wysiwyg',
+			'options'	=> array(
+				'wpautop'		=> true,
+				'media_buttons'	=> true,
+				'textarea_rows'	=> 6,
+			),
 		) );
 
 		$cmb->add_field( array(
-			'name'	=> __( 'After Header', 'mai-aec' ),
-			'id'	=> 'mai_ad_header_after',
-			'type'	=> 'textarea_code',
+			'name'		=> __( 'After Header', 'mai-aec' ),
+			'id'		=> 'mai_ad_header_after',
+			'type'		=> 'wysiwyg',
+			'options'	=> array(
+				'wpautop'		=> true,
+				'media_buttons'	=> true,
+				'textarea_rows'	=> 6,
+			),
 		) );
 
 		$cmb->add_field( array(
@@ -188,6 +208,17 @@ class Mai_AEC_Fields {
 			'id'	=> 'mai_ad_entry_content_title',
 			'type'	=> 'title',
 		) );
+
+		$before_entry = $cmb->add_field( array(
+			'id'		 => 'mai_ad_before_entry',
+			'type'		 => 'group',
+			'repeatable' => false,
+			'options'	 => array(
+				'group_title' => __( 'Before Entry', 'mai-aec' ),
+			),
+		) );
+		$cmb->add_group_field( $before_entry, $this->get_group_post_type_field_config() );
+		$cmb->add_group_field( $before_entry, $this->get_group_ad_field_config() );
 
 		$before_entry_content = $cmb->add_field( array(
 			'id'		 => 'mai_ad_before_entry_content',
@@ -291,9 +322,14 @@ class Mai_AEC_Fields {
 
 	function get_group_ad_field_config() {
 		return array(
-			'name'	=> __( 'Content', 'mai-aec' ),
-			'id'	=> 'content',
-			'type'	=> 'textarea_code',
+			'name'		=> __( 'Content', 'mai-aec' ),
+			'id'		=> 'content',
+			'type'		=> 'wysiwyg',
+			'options'	=> array(
+				'wpautop'		=> true,
+				'media_buttons'	=> true,
+				'textarea_rows'	=> 6,
+			),
 		);
 	}
 

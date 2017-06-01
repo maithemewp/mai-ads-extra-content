@@ -34,15 +34,17 @@ class Mai_AEC_Display {
 	public function hooks() {
 		add_action( 'wp_head', 				 				array( $this, 'header' ) );
 		add_action( 'wp_footer', 			 				array( $this, 'footer' ) );
-		add_action( 'genesis_before_header', 				array( $this, 'before_header' ) );
+		add_action( 'mai_header_before', 					array( $this, 'before_header' ) );
 		add_action( 'mai_header_left', 						array( $this, 'header_left' ) );
 		add_action( 'mai_header_right', 					array( $this, 'header_right' ) );
 		add_action( 'genesis_before_content_sidebar_wrap',  array( $this, 'header_after' ), 12 );
+		add_action( 'genesis_before_entry',			 		array( $this, 'before_entry' ) );
 		add_action( 'genesis_entry_content',		 		array( $this, 'before_entry_content' ) );
 		add_action( 'genesis_entry_content',		 		array( $this, 'entry_content' ) );
 		add_action( 'genesis_entry_content',	 			array( $this, 'after_entry_content' ), 20 );
 		add_action( 'genesis_after_entry',	 				array( $this, 'after_entry_a' ), 4 );
 		add_action( 'genesis_after_entry',	 				array( $this, 'after_entry_b' ), 12 );
+		add_action( 'genesis_after_loop',	 				array( $this, 'after_entry_c' ) );
 	}
 
 	function header() {
@@ -67,6 +69,10 @@ class Mai_AEC_Display {
 
 	function header_after() {
 		echo $this->display_global( 'mai_ad_header_after', 'header_after' );
+	}
+
+	function before_entry() {
+		echo $this->display_singular( 'mai_ad_before_entry', 'before_entry' );
 	}
 
 	function before_entry_content() {
@@ -150,8 +156,11 @@ class Mai_AEC_Display {
 			return;
 		}
 
+		// Build the HTML class name from the location
+		$class = str_replace( '_', '-', $location );
+
 		// Display it
-		echo wp_kses_post( $data[0]['content'] );
+		printf( '<div class="mai-aec mai-aec-%s"><div class="wrap">%s</div></div>', $class, wp_kses_post( $data[0]['content'] ) );
 	}
 
 	function display_singular_in_content( $key, $location ) {
