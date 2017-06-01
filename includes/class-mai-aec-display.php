@@ -188,18 +188,22 @@ class Mai_AEC_Display {
 
 			// Loop through the ad locations
 			foreach ( $data as $ad ) {
+
 				// Bail if no post types available
 				if ( ! isset( $ad['post_types'] ) ) {
 					continue;
 				}
+
 				// Bail if not on the correct post type
 				if ( ! in_array( get_post_type(), $ad['post_types'] ) ) {
 					continue;
 				}
+
 				// Bail if no paragraph or no content
 				if ( ! isset( $ad['count'] ) || ! isset( $ad['content'] ) ) {
 					continue;
 				}
+
 				// Add the paragraphs
 				$content = $this->display_after_paragraph( $ad['content'], $content, $ad['count'], $location );
 			}
