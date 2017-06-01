@@ -122,6 +122,18 @@ final class Mai_AEC_Setup {
     }
 
     public function setup() {
+
+        /**
+         * Setup the updater.
+         * This class/code is in Mai Pro Engine.
+         * Since this is a dependent plugin, we don't include that code twice.
+         *
+         * @uses  https://github.com/YahnisElsts/plugin-update-checker/
+         */
+        if ( class_exists( 'Puc_v4_Factory' ) ) {
+            $updater = Puc_v4_Factory::buildUpdateChecker( 'https://github.com/bizbudding/mai-ads-extra-content/', __FILE__, 'mai-ads-extra-content' );
+        }
+
         add_action( 'plugins_loaded', array( $this, 'init' ) );
     }
 
