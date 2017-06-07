@@ -2,7 +2,7 @@
 /**
  * Plugin Name: 	Mai - Ads and Extra Content
  * Plugin URI: 		https://maitheme.com
- * Description: 	Enable ads and extra content areas throughout Mai Pro themes
+ * Description: 	Enable ads and extra content areas throughout Mai Pro themes. Requires Mai Pro Engine plugin.
  * Version: 		1.0.0
  *
  * Author: 			Mike Hemberger, BizBudding Inc
@@ -140,10 +140,23 @@ final class Mai_AEC_Setup {
     function init() {
         // Bail if CMB2 is not running anywhere
         if ( ! class_exists( 'Mai_Pro_Engine' ) ) {
+            add_action( 'admin_init', array( $this, 'deactivate_plugin' ) );
+            add_action( 'admin_notices', array( $this, 'admin_notice' ) );
             return;
         }
         // Includes
         $this->includes();
+    }
+
+    function deactivate_plugin() {
+        deactivate_plugins( plugin_basename( __FILE__ ) );
+    }
+
+    function admin_notice() {
+        printf( '<div class="notice notice-warning is-dismissible"><p>%s</p></div>', __( 'Mai - Ads and Extra Content requires the Mai Pro Engine plugin. As a result, this plugin has been deactivated.', 'mai-ads-extra-content' ) );
+        if ( isset( $_GET['activate'] ) ) {
+            unset( $_GET['activate'] );
+        }
     }
 
     /**
