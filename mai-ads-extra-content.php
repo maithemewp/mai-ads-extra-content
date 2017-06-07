@@ -3,7 +3,7 @@
  * Plugin Name: 	Mai - Ads and Extra Content
  * Plugin URI: 		https://maitheme.com
  * Description: 	Enable ads and extra content areas throughout Mai Pro themes. Requires Mai Pro Engine plugin.
- * Version: 		1.0.0
+ * Version: 		0.1.0
  *
  * Author: 			Mike Hemberger, BizBudding Inc
  * Author URI: 		https://bizbudding.com
@@ -17,13 +17,13 @@ if ( ! class_exists( 'Mai_AEC_Setup' ) ) :
 /**
  * Main Mai_AEC_Setup Class.
  *
- * @since 1.0.0
+ * @since 0.1.0
  */
 final class Mai_AEC_Setup {
 
     /**
      * @var Mai_AEC_Setup The one true Mai_AEC_Setup
-     * @since 1.0.0
+     * @since 0.1.0
      */
     private static $instance;
 
@@ -33,7 +33,7 @@ final class Mai_AEC_Setup {
      * Insures that only one instance of Mai_AEC_Setup exists in memory at any one
      * time. Also prevents needing to define globals all over the place.
      *
-     * @since   1.0.0
+     * @since   0.1.0
      * @static  var array $instance
      * @uses    Mai_AEC_Setup::setup_constants() Setup the constants needed.
      * @uses    Mai_AEC_Setup::includes() Include the required files.
@@ -59,7 +59,7 @@ final class Mai_AEC_Setup {
      * The whole idea of the singleton design pattern is that there is a single
      * object therefore, we don't want the object to be cloned.
      *
-     * @since   1.0.0
+     * @since   0.1.0
      * @access  protected
      * @return  void
      */
@@ -71,7 +71,7 @@ final class Mai_AEC_Setup {
     /**
      * Disable unserializing of the class.
      *
-     * @since   1.0.0
+     * @since   0.1.0
      * @access  protected
      * @return  void
      */
@@ -84,14 +84,14 @@ final class Mai_AEC_Setup {
      * Setup plugin constants.
      *
      * @access  private
-     * @since   1.0.0
+     * @since   0.1.0
      * @return  void
      */
     private function setup_constants() {
 
         // Plugin version.
         if ( ! defined( 'MAI_AEC_VERSION' ) ) {
-            define( 'MAI_AEC_VERSION', '1.0.0' );
+            define( 'MAI_AEC_VERSION', '0.1.0' );
         }
 
         // Plugin Folder Path.
@@ -163,7 +163,7 @@ final class Mai_AEC_Setup {
      * Include required files.
      *
      * @access  private
-     * @since   1.0.0
+     * @since   0.1.0
      * @return  void
      */
     private function includes() {
@@ -184,7 +184,7 @@ endif; // End if class_exists check.
  *
  * Example: <?php $plugin = Mai_AEC(); ?>
  *
- * @since 1.0.0
+ * @since 0.1.0
  *
  * @return object|Mai_AEC_Setup The one true Mai_AEC_Setup Instance.
  */
