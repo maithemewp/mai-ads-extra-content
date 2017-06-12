@@ -56,47 +56,47 @@ class Mai_AEC_Display {
 	}
 
 	function before_header() {
-		echo $this->display_global( 'mai_ad_header_before', 'header_before' );
+		echo $this->get_display_global( 'mai_ad_header_before', 'header_before' );
 	}
 
 	function header_left() {
-		echo $this->display_global( 'mai_ad_header_left', 'header_left' );
+		echo $this->get_display_global( 'mai_ad_header_left', 'header_left' );
 	}
 
 	function header_right() {
-		echo $this->display_global( 'mai_ad_header_right', 'header_right' );
+		echo $this->get_display_global( 'mai_ad_header_right', 'header_right' );
 	}
 
 	function header_after() {
-		echo $this->display_global( 'mai_ad_header_after', 'header_after' );
+		echo $this->get_display_global( 'mai_ad_header_after', 'header_after' );
 	}
 
 	function before_entry() {
-		echo $this->display_singular( 'mai_ad_before_entry', 'before_entry' );
+		echo $this->get_display_singular( 'mai_ad_before_entry', 'before_entry' );
 	}
 
 	function before_entry_content() {
-		echo $this->display_singular( 'mai_ad_before_entry_content', 'before_entry_content' );
+		echo $this->get_display_singular( 'mai_ad_before_entry_content', 'before_entry_content' );
 	}
 
 	function entry_content() {
-		echo $this->display_singular_in_content( 'mai_ad_entry_content', 'entry_content' );
+		echo $this->get_display_singular_in_content( 'mai_ad_entry_content', 'entry_content' );
 	}
 
 	function after_entry_content() {
-		echo $this->display_singular( 'mai_ad_after_entry_content', 'after_entry_content' );
+		echo $this->get_display_singular( 'mai_ad_after_entry_content', 'after_entry_content' );
 	}
 
 	function after_entry_a() {
-		echo $this->display_singular( 'mai_ad_after_entry_a', 'after_entry_a' );
+		echo $this->get_display_singular( 'mai_ad_after_entry_a', 'after_entry_a' );
 	}
 
 	function after_entry_b() {
-		echo $this->display_singular( 'mai_ad_after_entry_b', 'after_entry_b' );
+		echo $this->get_display_singular( 'mai_ad_after_entry_b', 'after_entry_b' );
 	}
 
 	function after_entry_c() {
-		echo $this->display_singular( 'mai_ad_after_entry_c', 'after_entry_c' );
+		echo $this->get_display_singular( 'mai_ad_after_entry_c', 'after_entry_c' );
 	}
 
 	function display_header_footer( $key, $location ) {
@@ -113,7 +113,7 @@ class Mai_AEC_Display {
 		echo $data;
 	}
 
-	function display_global( $key, $location ) {
+	function get_display_global( $key, $location, $wrap = true ) {
 
 		// Get the data
 		$data = $this->get_option( $key, $location );
@@ -126,11 +126,14 @@ class Mai_AEC_Display {
 		// Build the HTML class name from the location
 		$class = str_replace( '_', '-', $location );
 
+		$wrap_open  = $wrap ? '<div class="wrap">' : '';
+		$wrap_close = $wrap ? '</div>' : '';
+
 		// Display it!
-		printf( '<div class="mai-aec mai-aec-%s"><div class="wrap">%s</div></div>', $class, mai_get_processed_content( $data ) );
+		return sprintf( '<div class="mai-aec mai-aec-%s">%s%s%s</div>', $class, $wrap_open, mai_get_processed_content( $data ), $wrap_close );
 	}
 
-	function display_singular( $key, $location ) {
+	function get_display_singular( $key, $location ) {
 
 		// Bail if not a singular post
 		if ( ! is_singular() ) {
@@ -160,10 +163,10 @@ class Mai_AEC_Display {
 		$class = str_replace( '_', '-', $location );
 
 		// Display it
-		printf( '<div class="mai-aec mai-aec-%s"><div class="wrap">%s</div></div>', $class, mai_get_processed_content( $data[0]['content'] ) );
+		return sprintf( '<div class="mai-aec mai-aec-%s"><div class="wrap">%s</div></div>', $class, mai_get_processed_content( $data[0]['content'] ) );
 	}
 
-	function display_singular_in_content( $key, $location ) {
+	function get_display_singular_in_content( $key, $location ) {
 
 		// Bail if not a singular post
 		if ( ! is_singular() ) {

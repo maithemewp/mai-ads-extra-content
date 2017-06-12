@@ -8,7 +8,9 @@ function mai_aec_register_ad_widget_a() {
 
 class Mai_AEC_Widget_A extends WP_Widget {
 
-	protected static $location = 'mai_ad_widget_a';
+	protected static $key = 'mai_ad_widget_a';
+
+	protected static $location = 'widget_b';
 
 	/**
 	 * Register widget with WordPress.
@@ -32,7 +34,7 @@ class Mai_AEC_Widget_A extends WP_Widget {
 	public function widget( $args, $instance ) {
 
 		// Get our ad code
-		$ad = maiaec_display()->get_option( $key, self::$location );
+		$ad = maiaec_display()->get_display_global( self::$key, self::$location, false );
 
 		// Bail if empty
 		if ( empty( $ad ) ) {
@@ -49,7 +51,7 @@ class Mai_AEC_Widget_A extends WP_Widget {
 		}
 
 		// Output the ad code
-		echo trim($ad);
+		echo $ad;
 
 		echo $after_widget;
 	}
