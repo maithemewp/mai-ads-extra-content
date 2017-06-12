@@ -141,6 +141,7 @@ class Mai_AEC_Fields {
 
 		$cmb->add_field( array(
 			'name' => __( 'Header Code', 'mai-aec' ),
+			// 'desc' => sprintf( __( 'This code will output immediately before the closing %s tag in the document source.', 'mai-aec' ), '<code></head></code>' ),
 			'id'   => 'mai_ad_header',
 			'type' => 'textarea_code',
 		) );
@@ -159,10 +160,12 @@ class Mai_AEC_Fields {
 		) );
 
 		$cmb->add_field( array(
-			'name'		=> __( 'Before Header', 'mai-aec' ),
-			'id'		=> 'mai_ad_header_before',
-			'type'		=> 'wysiwyg',
-			'options'	=> array(
+			'name'				=> __( 'Before Header', 'mai-aec' ),
+			'id'				=> 'mai_ad_header_before',
+			'type'				=> 'wysiwyg',
+			'sanitization_cb'	=> array( $this, 'sanitize_wysiwyg' ),
+			'escape_cb'			=> array( $this, 'escape_wysiwyg' ),
+			'options'			=> array(
 				'wpautop'		=> true,
 				'media_buttons'	=> true,
 				'textarea_rows'	=> 6,
@@ -170,10 +173,12 @@ class Mai_AEC_Fields {
 		) );
 
 		$cmb->add_field( array(
-			'name'		=> __( 'Header Left', 'mai-aec' ),
-			'id'		=> 'mai_ad_header_left',
-			'type'		=> 'wysiwyg',
-			'options'	=> array(
+			'name'				=> __( 'Header Left', 'mai-aec' ),
+			'id'				=> 'mai_ad_header_left',
+			'type'				=> 'wysiwyg',
+			'sanitization_cb'	=> array( $this, 'sanitize_wysiwyg' ),
+			'escape_cb'			=> array( $this, 'escape_wysiwyg' ),
+			'options'			=> array(
 				'wpautop'		=> true,
 				'media_buttons'	=> true,
 				'textarea_rows'	=> 6,
@@ -181,10 +186,12 @@ class Mai_AEC_Fields {
 		) );
 
 		$cmb->add_field( array(
-			'name'		=> __( 'Header Right', 'mai-aec' ),
-			'id'		=> 'mai_ad_header_right',
-			'type'		=> 'wysiwyg',
-			'options'	=> array(
+			'name'				=> __( 'Header Right', 'mai-aec' ),
+			'id'				=> 'mai_ad_header_right',
+			'type'				=> 'wysiwyg',
+			'sanitization_cb'	=> array( $this, 'sanitize_wysiwyg' ),
+			'escape_cb'			=> array( $this, 'escape_wysiwyg' ),
+			'options'			=> array(
 				'wpautop'		=> true,
 				'media_buttons'	=> true,
 				'textarea_rows'	=> 6,
@@ -192,10 +199,12 @@ class Mai_AEC_Fields {
 		) );
 
 		$cmb->add_field( array(
-			'name'		=> __( 'After Header', 'mai-aec' ),
-			'id'		=> 'mai_ad_header_after',
-			'type'		=> 'wysiwyg',
-			'options'	=> array(
+			'name'				=> __( 'After Header', 'mai-aec' ),
+			'id'				=> 'mai_ad_header_after',
+			'type'				=> 'wysiwyg',
+			'sanitization_cb'	=> array( $this, 'sanitize_wysiwyg' ),
+			'escape_cb'			=> array( $this, 'escape_wysiwyg' ),
+			'options'			=> array(
 				'wpautop'		=> true,
 				'media_buttons'	=> true,
 				'textarea_rows'	=> 6,
@@ -300,6 +309,41 @@ class Mai_AEC_Fields {
 		$cmb->add_group_field( $after_entry_c, $this->get_group_post_type_field_config() );
 		$cmb->add_group_field( $after_entry_c, $this->get_group_ad_field_config() );
 
+		$cmb->add_field( array(
+			'name'				=> __( 'Widget A', 'mai-aec' ),
+			'id'				=> 'mai_ad_widget_a',
+			'type'				=> 'wysiwyg',
+			'sanitization_cb'	=> array( $this, 'sanitize_wysiwyg' ),
+			'escape_cb'			=> array( $this, 'escape_wysiwyg' ),
+			'options'			=> array(
+				'wpautop'		=> true,
+				'media_buttons'	=> true,
+				'textarea_rows'	=> 6,
+			),
+		) );
+
+		$cmb->add_field( array(
+			'name'				=> __( 'Widget B', 'mai-aec' ),
+			'id'				=> 'mai_ad_widget_b',
+			'type'				=> 'wysiwyg',
+			'sanitization_cb'	=> array( $this, 'sanitize_wysiwyg' ),
+			'escape_cb'			=> array( $this, 'escape_wysiwyg' ),
+			'options'			=> array(
+				'wpautop'		=> true,
+				'media_buttons'	=> true,
+				'textarea_rows'	=> 6,
+			),
+		) );
+
+	}
+
+	function sanitize_wysiwyg( $content ) {
+		return wp_unslash( apply_filters( 'content_save_pre', $content ) );
+	}
+
+	function escape_wysiwyg( $content ) {
+		// This escape taken from Genesis Simple Edits.
+		return wp_kses_stripslashes( wp_kses_decode_entities( $content ) );
 	}
 
 	function get_group_post_type_field_config() {
@@ -322,10 +366,12 @@ class Mai_AEC_Fields {
 
 	function get_group_ad_field_config() {
 		return array(
-			'name'		=> __( 'Content', 'mai-aec' ),
-			'id'		=> 'content',
-			'type'		=> 'wysiwyg',
-			'options'	=> array(
+			'name'				=> __( 'Content', 'mai-aec' ),
+			'id'				=> 'content',
+			'type'				=> 'wysiwyg',
+			'sanitization_cb'	=> array( $this, 'sanitize_wysiwyg' ),
+			'escape_cb'			=> array( $this, 'escape_wysiwyg' ),
+			'options'			=> array(
 				'wpautop'		=> true,
 				'media_buttons'	=> true,
 				'textarea_rows'	=> 6,
