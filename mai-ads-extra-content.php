@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: 	Mai - Ads and Extra Content
- * Plugin URI: 		https://maitheme.com
+ * Plugin URI: 		https://maipro.io
  * Description: 	Enable ads and extra content areas throughout Mai Pro themes. Requires Mai Pro Engine plugin.
  * Version: 		0.1.0
  *
@@ -168,6 +168,7 @@ final class Mai_AEC_Setup {
      */
     private function includes() {
         foreach ( glob( MAI_AEC_INCLUDES_DIR . '*.php' ) as $file ) { include $file; }
+        foreach ( glob( MAI_AEC_INCLUDES_DIR . 'widgets/*.php' ) as $file ) { include $file; }
     }
 
 }
