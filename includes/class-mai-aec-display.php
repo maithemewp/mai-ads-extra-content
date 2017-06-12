@@ -127,7 +127,7 @@ class Mai_AEC_Display {
 		$class = str_replace( '_', '-', $location );
 
 		// Display it!
-		printf( '<div class="mai-aec mai-aec-%s"><div class="wrap">%s</div></div>', $class, do_shortcode( wp_kses_post( $data ) ) );
+		printf( '<div class="mai-aec mai-aec-%s"><div class="wrap">%s</div></div>', $class, mai_get_processed_content( $data ) );
 	}
 
 	function display_singular( $key, $location ) {
@@ -160,7 +160,7 @@ class Mai_AEC_Display {
 		$class = str_replace( '_', '-', $location );
 
 		// Display it
-		printf( '<div class="mai-aec mai-aec-%s"><div class="wrap">%s</div></div>', $class, do_shortcode( wp_kses_post( $data[0]['content'] ) ) );
+		printf( '<div class="mai-aec mai-aec-%s"><div class="wrap">%s</div></div>', $class, mai_get_processed_content( $data[0]['content'] ) );
 	}
 
 	function display_singular_in_content( $key, $location ) {
@@ -205,7 +205,7 @@ class Mai_AEC_Display {
 				}
 
 				// Add the paragraphs
-				$content = $this->display_after_paragraph( do_shortcode( wp_kses_post( $ad['content'] ) ), $content, $ad['count'], $location );
+				$content = $this->get_content_with_ad_after_p( mai_get_processed_content( $ad['content'] ), $content, $ad['count'], $location );
 			}
 
 			return $content;
@@ -225,7 +225,7 @@ class Mai_AEC_Display {
 	 *
 	 * @return  string  The modified content
 	 */
-	function display_after_paragraph( $new_content, $existing_content, $paragraph_number, $location ) {
+	function get_content_with_ad_after_p( $new_content, $existing_content, $paragraph_number, $location ) {
 
 		// Get the paragraphs array prior to adding and ads
 		$paragraphs = explode( '</p>', wpautop( $existing_content ) );
@@ -238,7 +238,7 @@ class Mai_AEC_Display {
 				$paragraphs[$index] .= '</p>';
 			}
 			if ( (int) $paragraph_number == $index + 1 ) {
-				$paragraphs[$index] .= sprintf( '<div class="mai-aec mai-aec-%s"><div class="wrap">%s</div></div>', $class, do_shortcode( wp_kses_post( $new_content ) ) );
+				$paragraphs[$index] .= sprintf( '<div class="mai-aec mai-aec-%s"><div class="wrap">%s</div></div>', $class, mai_get_processed_content( $new_content ) );
 			}
 		}
 		return implode( '', $paragraphs );
