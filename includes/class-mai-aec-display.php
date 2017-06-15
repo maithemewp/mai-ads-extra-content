@@ -148,6 +148,10 @@ class Mai_AEC_Display {
 			return;
 		}
 
+		// Bail if no content
+		if ( empty( $data[0]['content'] ) ) {
+			return;
+		}
 
 		// Bail if no post types available
 		if ( ! isset( $data[0]['post_types'] ) ) {
