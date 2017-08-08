@@ -1,12 +1,12 @@
 <?php
 /**
- * Plugin Name: 	Mai - Ads and Extra Content
- * Plugin URI: 		https://maipro.io
- * Description: 	Enable ads and extra content areas throughout Mai Pro themes. Requires Mai Pro Engine plugin.
- * Version: 		0.1.2
+ * Plugin Name:     Mai - Ads and Extra Content
+ * Plugin URI:      https://maipro.io
+ * Description:     Enable ads and extra content areas throughout Mai Pro themes. Requires Mai Pro Engine plugin.
+ * Version:         0.1.2
  *
- * Author: 			Mike Hemberger, BizBudding Inc
- * Author URI: 		https://bizbudding.com
+ * Author:          Mike Hemberger, BizBudding Inc
+ * Author URI:      https://bizbudding.com
  */
 
 // Exit if accessed directly.
