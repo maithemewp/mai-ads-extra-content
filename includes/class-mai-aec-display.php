@@ -32,19 +32,20 @@ class Mai_AEC_Display {
 	 * @since 0.1.0
 	 */
 	public function hooks() {
-		add_action( 'wp_head', 				 				array( $this, 'header' ) );
-		add_action( 'wp_footer', 			 				array( $this, 'footer' ) );
-		add_action( 'mai_header_before', 					array( $this, 'before_header' ) );
-		add_action( 'mai_header_left', 						array( $this, 'header_left' ) );
-		add_action( 'mai_header_right', 					array( $this, 'header_right' ) );
+		add_action( 'wp_head',                              array( $this, 'header' ) );
+		add_action( 'wp_footer',                            array( $this, 'footer' ) );
+		add_action( 'mai_header_before',                    array( $this, 'before_header' ) );
+		add_action( 'mai_header_left',                      array( $this, 'header_left' ) );
+		add_action( 'mai_header_right',                     array( $this, 'header_right' ) );
 		add_action( 'genesis_before_content_sidebar_wrap',  array( $this, 'header_after' ), 12 );
-		add_action( 'genesis_before_entry',			 		array( $this, 'before_entry' ) );
-		add_action( 'genesis_entry_content',		 		array( $this, 'before_entry_content' ) );
-		add_action( 'genesis_entry_content',		 		array( $this, 'entry_content' ) );
-		add_action( 'genesis_entry_content',	 			array( $this, 'after_entry_content' ), 20 );
-		add_action( 'genesis_after_entry',	 				array( $this, 'after_entry_a' ), 4 );
-		add_action( 'genesis_after_entry',	 				array( $this, 'after_entry_b' ), 12 );
-		add_action( 'genesis_after_loop',	 				array( $this, 'after_entry_c' ) );
+		add_action( 'genesis_before_footer',                array( $this, 'before_footer' ) );
+		add_action( 'genesis_before_entry',                 array( $this, 'before_entry' ) );
+		add_action( 'genesis_entry_content',                array( $this, 'before_entry_content' ) );
+		add_action( 'genesis_entry_content',                array( $this, 'entry_content' ) );
+		add_action( 'genesis_entry_content',                array( $this, 'after_entry_content' ), 20 );
+		add_action( 'genesis_after_entry',                  array( $this, 'after_entry_a' ), 4 );
+		add_action( 'genesis_after_entry',                  array( $this, 'after_entry_b' ), 12 );
+		add_action( 'genesis_after_loop',                   array( $this, 'after_entry_c' ) );
 	}
 
 	function header() {
@@ -69,6 +70,10 @@ class Mai_AEC_Display {
 
 	function header_after() {
 		echo $this->get_display_global( 'mai_ad_header_after', 'header_after' );
+	}
+
+	function before_footer() {
+		echo $this->get_display_global( 'mai_ad_before_footer', 'before_footer' );
 	}
 
 	function before_entry() {
@@ -223,12 +228,12 @@ class Mai_AEC_Display {
 	 * Insert content after a specific paragraph
 	 * When running on the_content, use priority > 20 so it doesn't affect oEmbed
 	 *
-	 * @link 	http://www.wpbeginner.com/wp-tutorials/how-to-insert-ads-within-your-post-content-in-wordpress/
+	 * @link    http://www.wpbeginner.com/wp-tutorials/how-to-insert-ads-within-your-post-content-in-wordpress/
 	 * @link    http://www.billerickson.net/code/insert-after-paragraph/
 	 *
 	 * @param   string  $new_content
 	 * @param   string  $existing_content
-	 * @param   int 	$paragraph_number
+	 * @param   int     $paragraph_number
 	 *
 	 * @return  string  The modified content
 	 */
@@ -259,7 +264,7 @@ class Mai_AEC_Display {
 	 * @param   string  $key       The option key to check.
 	 * @param   string  $location  The ad location.
 	 *
-	 * @return  false|array 	   The ad data
+	 * @return  false|array        The ad data
 	 */
 	function get_option( $key, $location ) {
 		if ( ! $this->is_display( $location ) ) {
