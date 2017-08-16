@@ -1,3 +1,6 @@
+#### 0.2.1 (8/16/17)
+* Added: Widget fields heading.
+
 #### 0.2.0 (8/16/17)
 * Added: "Before Footer" ad location.
 * Added: Widget C.

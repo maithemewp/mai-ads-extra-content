@@ -213,6 +213,12 @@ function myprefix_register_theme_options_metabox() {
 	$cmb->add_group_field( $after_entry_c, maiaec_get_group_ad_field_config() );
 
 	$cmb->add_field( array(
+		'name' => __( 'Widgets', 'mai-aec' ),
+		'id'   => 'mai_ad_widgets_title',
+		'type' => 'title',
+	) );
+
+	$cmb->add_field( array(
 		'name'            => __( 'Widget A', 'mai-aec' ),
 		'id'              => 'mai_ad_widget_a',
 		'type'            => 'wysiwyg',
