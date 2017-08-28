@@ -202,7 +202,7 @@ class Mai_AEC_Display {
 			foreach ( $data as $ad ) {
 
 				// Bail if no post types available
-				if ( ! isset( $ad['post_types'] ) ) {
+				if ( ! isset( $ad['post_types'] ) || ! $ad['post_types'] ) {
 					continue;
 				}
 
