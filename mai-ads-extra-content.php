@@ -3,7 +3,7 @@
  * Plugin Name:     Mai - Ads and Extra Content
  * Plugin URI:      https://maipro.io
  * Description:     Enable ads and extra content areas throughout Mai Pro themes. Requires Mai Pro Engine plugin.
- * Version:         0.2.1
+ * Version:         0.2.2
  *
  * Author:          Mike Hemberger, BizBudding Inc
  * Author URI:      https://bizbudding.com
@@ -90,7 +90,7 @@ final class Mai_AEC_Setup {
 
 		// Plugin version.
 		if ( ! defined( 'MAI_AEC_VERSION' ) ) {
-			define( 'MAI_AEC_VERSION', '0.2.1' );
+			define( 'MAI_AEC_VERSION', '0.2.2' );
 		}
 
 		// Plugin Folder Path.

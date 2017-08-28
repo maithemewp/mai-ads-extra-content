@@ -1,3 +1,6 @@
+#### 0.2.2 (8/16/17)
+* Fixed: Error when entry content ad location has content but no post types selected.
+
 #### 0.2.1 (8/16/17)
 * Added: Widget fields heading.
 
