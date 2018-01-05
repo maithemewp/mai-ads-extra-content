@@ -89,7 +89,7 @@ final class Mai_AEC_Setup {
 
 		// Plugin version.
 		if ( ! defined( 'MAI_AEC_VERSION' ) ) {
-			define( 'MAI_AEC_VERSION', '0.2.2' );
+			define( 'MAI_AEC_VERSION', '0.3.0' );
 		}
 
 		// Plugin Folder Path.

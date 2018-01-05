@@ -1,2 +1,2 @@
-# Mai - Ads and Extra Content
-Enable ads and extra content areas throughout Mai Pro themes. Requires Mai Pro Engine plugin.
+# Mai - Ads & Extra Content
+Enable flexible ad locations and extra content areas throughout Mai Pro & Genesis child themes.
