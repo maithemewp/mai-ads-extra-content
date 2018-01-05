@@ -1,9 +1,10 @@
 <?php
+
 /**
- * Plugin Name:     Mai - Ads and Extra Content
+ * Plugin Name:     Mai - Ads & Extra Content
  * Plugin URI:      https://maipro.io
- * Description:     Enable ads and extra content areas throughout Mai Pro & Genesis child themes.
- * Version:         0.2.2
+ * Description:     Enable flexible ad locations and extra content areas throughout Mai Pro & Genesis child themes.
+ * Version:         0.3.0
  *
  * Author:          Mike Hemberger, BizBudding Inc
  * Author URI:      https://bizbudding.com
@@ -124,7 +125,26 @@ final class Mai_AEC_Setup {
 	 * @return  void
 	 */
 	public function setup() {
-		add_action( 'plugins_loaded', array( $this, 'init' ) );
+		add_action( 'init',           array( $this, 'requirements' ) );
+		add_action( 'plugins_loaded', array( $this, 'run' ) );
+	}
+
+	/**
+	 * Check if Genesis is running.
+	 * This was taken from https://github.com/copyblogger/genesis-connect-woocommerce/blob/develop/genesis-connect-woocommerce.php.
+	 *
+	 * @return  void
+	 */
+	public function requirements() {
+		/**
+		 * If Genesis is not the active theme, deactivate and die.
+		 *
+		 * This was taken from https://github.com/copyblogger/genesis-connect-woocommerce/blob/develop/genesis-connect-woocommerce.php.
+		 */
+		if ( 'genesis' !== get_option( 'template' ) ) {
+			deactivate_plugins( plugin_basename( __FILE__ ) );
+			wp_die( sprintf( __( 'Sorry, Mai - Ads & Extra Content cannot be activated unless you have installed <a href="%s">Genesis</a>', 'mai-ads-extra-content' ), 'http://my.studiopress.com/themes/genesis/' ) );
+		}
 	}
 
 	/**
@@ -132,7 +152,7 @@ final class Mai_AEC_Setup {
 	 *
 	 * @return  void
 	 */
-	function init() {
+	function run() {
 		/**
 		 * Setup the updater.
 		 *
@@ -143,25 +163,8 @@ final class Mai_AEC_Setup {
 		}
 		$updater = Puc_v4_Factory::buildUpdateChecker( 'https://github.com/maiprowp/mai-ads-extra-content/', __FILE__, 'mai-ads-extra-content' ); // 4.4
 
-		// Bail if CMB2 is not running anywhere
-		if ( ! class_exists( 'Mai_Pro_Engine' ) ) {
-			add_action( 'admin_init', array( $this, 'deactivate_plugin' ) );
-			add_action( 'admin_notices', array( $this, 'admin_notice' ) );
-			return;
-		}
 		// Includes
 		$this->includes();
-	}
-
-	function deactivate_plugin() {
-		deactivate_plugins( plugin_basename( __FILE__ ) );
-	}
-
-	function admin_notice() {
-		printf( '<div class="notice notice-warning is-dismissible"><p>%s</p></div>', __( 'Mai - Ads and Extra Content requires the Mai Pro Engine plugin. As a result, this plugin has been deactivated.', 'mai-ads-extra-content' ) );
-		if ( isset( $_GET['activate'] ) ) {
-			unset( $_GET['activate'] );
-		}
 	}
 
 	/**
@@ -172,6 +175,9 @@ final class Mai_AEC_Setup {
 	 * @return  void
 	 */
 	private function includes() {
+		// Vendor.
+		require_once MAI_AEC_INCLUDES_DIR . 'vendor/CMB2/init.php';
+		// Internal.
 		foreach ( glob( MAI_AEC_INCLUDES_DIR . '*.php' ) as $file ) { include $file; }
 		foreach ( glob( MAI_AEC_INCLUDES_DIR . 'widgets/*.php' ) as $file ) { include $file; }
 	}
