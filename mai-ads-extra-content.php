@@ -2,7 +2,7 @@
 /**
  * Plugin Name:     Mai - Ads and Extra Content
  * Plugin URI:      https://maipro.io
- * Description:     Enable ads and extra content areas throughout Mai Pro themes. Requires Mai Pro Engine plugin.
+ * Description:     Enable ads and extra content areas throughout Mai Pro & Genesis child themes.
  * Version:         0.2.2
  *
  * Author:          Mike Hemberger, BizBudding Inc
@@ -11,8 +11,6 @@
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
-
-if ( ! class_exists( 'Mai_AEC_Setup' ) ) :
 
 /**
  * Main Mai_AEC_Setup Class.
@@ -142,9 +140,11 @@ final class Mai_AEC_Setup {
 		 *
 		 * @uses  https://github.com/YahnisElsts/plugin-update-checker/
 		 */
-		if ( class_exists( 'Puc_v4_Factory' ) ) {
-			$updater = Puc_v4_Factory::buildUpdateChecker( 'https://github.com/maiprowp/mai-ads-extra-content/', __FILE__, 'mai-ads-extra-content' );
+		if ( ! class_exists( 'Puc_v4_Factory' ) ) {
+			require_once MAI_TESTIMONIALS_PLUGIN_DIR . 'plugin-update-checker/plugin-update-checker.php'; // 4.4
 		}
+		$updater = Puc_v4_Factory::buildUpdateChecker( 'https://github.com/maiprowp/mai-ads-extra-content/', __FILE__, 'mai-ads-extra-content' ); // 4.4
+
 		// Bail if CMB2 is not running anywhere
 		if ( ! class_exists( 'Mai_Pro_Engine' ) ) {
 			add_action( 'admin_init', array( $this, 'deactivate_plugin' ) );
@@ -179,7 +179,6 @@ final class Mai_AEC_Setup {
 	}
 
 }
-endif; // End if class_exists check.
 
 /**
  * The main function for that returns Mai_AEC_Setup
