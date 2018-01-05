@@ -49,6 +49,7 @@ function myprefix_register_theme_options_metabox() {
 		'type' => 'title',
 	) );
 
+
 	$cmb->add_field( array(
 		'name'            => __( 'Before Header', 'mai-aec' ),
 		'id'              => 'mai_ad_header_before',
@@ -59,21 +60,25 @@ function myprefix_register_theme_options_metabox() {
 			'wpautop'       => true,
 			'media_buttons' => true,
 			'textarea_rows' => 6,
-			),
-	) );
-
-	$cmb->add_field( array(
-		'name'            => __( 'Header Left', 'mai-aec' ),
-		'id'              => 'mai_ad_header_left',
-		'type'            => 'wysiwyg',
-		'sanitization_cb' => 'maiaec_sanitize_wysiwyg',
-		'escape_cb'       => 'maiaec_escape_wysiwyg',
-		'options'         => array(
-			'wpautop'       => true,
-			'media_buttons' => true,
-			'textarea_rows' => 6,
 		),
 	) );
+
+	if ( class_exists( 'Mai_Pro_Engine' ) ) {
+
+		$cmb->add_field( array(
+			'name'            => __( 'Header Left', 'mai-aec' ),
+			'id'              => 'mai_ad_header_left',
+			'type'            => 'wysiwyg',
+			'sanitization_cb' => 'maiaec_sanitize_wysiwyg',
+			'escape_cb'       => 'maiaec_escape_wysiwyg',
+			'options'         => array(
+				'wpautop'       => true,
+				'media_buttons' => true,
+				'textarea_rows' => 6,
+			),
+		) );
+
+	}
 
 	$cmb->add_field( array(
 		'name'            => __( 'Header Right', 'mai-aec' ),

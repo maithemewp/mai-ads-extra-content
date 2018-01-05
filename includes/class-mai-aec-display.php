@@ -2,7 +2,6 @@
 
 /**
  * CMB2 Theme Options
- * @version 0.1.0
  */
 class Mai_AEC_Display {
 
@@ -13,6 +12,8 @@ class Mai_AEC_Display {
 	 */
 	protected static $instance = null;
 
+	protected $maipro;
+
 	/**
 	 * Returns the running object
 	 *
@@ -22,21 +23,39 @@ class Mai_AEC_Display {
 		if ( null === self::$instance ) {
 			self::$instance = new self();
 			self::$instance->hooks();
+			self::$instance->maipro();
 		}
-
 		return self::$instance;
 	}
 
+	public function maipro() {
+		$this->maipro = class_exists( 'Mai_Pro_Engine' );
+	}
+
 	/**
-	 * Initiate our hooks
+	 * Initiate our hooks.
+	 * This entire file is loaded on plugins_loaded hook, so we're safe to check for Mai_Pro_Engine.
+	 *
 	 * @since 0.1.0
 	 */
 	public function hooks() {
+		add_action( 'wp_enqueue_scripts',                   array( $this, 'css' ), 1000 ); // Way late cause MPE changes stylesheet to 999.
 		add_action( 'wp_head',                              array( $this, 'header' ) );
 		add_action( 'wp_footer',                            array( $this, 'footer' ) );
-		add_action( 'mai_header_before',                    array( $this, 'before_header' ) );
-		add_action( 'mai_header_left',                      array( $this, 'header_left' ) );
-		add_action( 'mai_header_right',                     array( $this, 'header_right' ) );
+		// Hooks.
+		if ( $this->maipro ) {
+			$header_before = 'genesis_header';
+			$header_right  = 'genesis_header_right';
+		} else {
+			$header_before = 'mai_header_before';
+			$header_right  = 'mai_header_right';
+		}
+		add_action( $header_before,                         array( $this, 'before_header' ) );
+		// Only Mai Pro has header left.
+		if ( $this->maipro ) {
+			add_action( 'mai_header_left',                  array( $this, 'header_left' ) );
+		}
+		add_action( $header_right,                          array( $this, 'header_right' ) );
 		add_action( 'genesis_before_content_sidebar_wrap',  array( $this, 'header_after' ), 12 );
 		add_action( 'genesis_before_footer',                array( $this, 'before_footer' ) );
 		add_action( 'genesis_before_entry',                 array( $this, 'before_entry' ) );
@@ -46,6 +65,35 @@ class Mai_AEC_Display {
 		add_action( 'genesis_after_entry',                  array( $this, 'after_entry_a' ), 4 );
 		add_action( 'genesis_after_entry',                  array( $this, 'after_entry_b' ), 12 );
 		add_action( 'genesis_after_loop',                   array( $this, 'after_entry_c' ) );
+	}
+
+	/**
+	 * Add inline CSS.
+	 *
+	 * @since 0.3.0
+	 *
+	 * @link  http://www.billerickson.net/code/enqueue-inline-styles/
+	 * @link  https://sridharkatakam.com/chevron-shaped-featured-parallax-section-in-genesis-using-clip-path/
+	 */
+	function css() {
+		$css = '
+			.mai-aec > .wrap:empty {
+				display: none;
+			}
+			.mai-aec > .wrap {
+				margin-top: 16px;
+				margin-bottom: 16px;
+			}
+			.content .mai-aec > .wrap {
+				padding-left: 0;
+				padding-right: 0;
+			}
+			.mai-aec > .wrap > p:last-child {
+				margin-bottom: 0;
+			}
+		';
+		$handle = ( defined( 'CHILD_THEME_NAME' ) && CHILD_THEME_NAME ) ? sanitize_title_with_dashes( CHILD_THEME_NAME ) : 'child-theme';
+		wp_add_inline_style( $handle, $css );
 	}
 
 	function header() {
@@ -135,7 +183,7 @@ class Mai_AEC_Display {
 		$wrap_close = $wrap ? '</div>' : '';
 
 		// Display it!
-		return sprintf( '<div class="mai-aec mai-aec-%s">%s%s%s</div>', $class, $wrap_open, mai_get_processed_content( $data ), $wrap_close );
+		return sprintf( '<div class="mai-aec mai-aec-%s">%s%s%s</div>', $class, $wrap_open, $this->get_processed_content( $data ), $wrap_close );
 	}
 
 	function get_display_singular( $key, $location ) {
@@ -172,7 +220,7 @@ class Mai_AEC_Display {
 		$class = str_replace( '_', '-', $location );
 
 		// Display it
-		return sprintf( '<div class="mai-aec mai-aec-%s"><div class="wrap">%s</div></div>', $class, mai_get_processed_content( $data[0]['content'] ) );
+		return sprintf( '<div class="mai-aec mai-aec-%s"><div class="wrap">%s</div></div>', $class, $this->get_processed_content( $data[0]['content'] ) );
 	}
 
 	function get_display_singular_in_content( $key, $location ) {
@@ -217,7 +265,7 @@ class Mai_AEC_Display {
 				}
 
 				// Add the paragraphs
-				$content = $this->get_content_with_ad_after_p( mai_get_processed_content( $ad['content'] ), $content, $ad['count'], $location );
+				$content = $this->get_content_with_ad_after_p( $this->get_processed_content( $ad['content'] ), $content, $ad['count'], $location );
 			}
 
 			return $content;
@@ -250,7 +298,7 @@ class Mai_AEC_Display {
 				$paragraphs[$index] .= '</p>';
 			}
 			if ( (int) $paragraph_number == $index + 1 ) {
-				$paragraphs[$index] .= sprintf( '<div class="mai-aec mai-aec-%s"><div class="wrap">%s</div></div>', $class, mai_get_processed_content( $new_content ) );
+				$paragraphs[$index] .= sprintf( '<div class="mai-aec mai-aec-%s"><div class="wrap">%s</div></div>', $class, $this->get_processed_content( $new_content ) );
 			}
 		}
 		return implode( '', $paragraphs );
@@ -279,6 +327,23 @@ class Mai_AEC_Display {
 			return false;
 		}
 		return true;
+	}
+
+	function get_processed_content( $content ) {
+		if ( $this->maipro ) {
+			return mai_get_processed_content( $content );
+		} else {
+			global $wp_embed;
+			$content = trim( $content );
+			$content = wptexturize( $content );
+			$content = wpautop( $content );
+			$content = shortcode_unautop( $content );
+			$content = do_shortcode( $content );
+			$content = convert_smilies( $content );
+			$content = $wp_embed->autoembed( $content );
+			$content = $wp_embed->run_shortcode( $content );
+			return $content;
+		}
 	}
 
 }
