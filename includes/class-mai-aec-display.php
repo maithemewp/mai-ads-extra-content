@@ -44,13 +44,11 @@ class Mai_AEC_Display {
 		add_action( 'wp_footer',                            array( $this, 'footer' ) );
 		// Hooks.
 		if ( $this->maipro ) {
-			$header_before = 'genesis_header';
 			$header_right  = 'genesis_header_right';
 		} else {
-			$header_before = 'mai_header_before';
 			$header_right  = 'mai_header_right';
 		}
-		add_action( $header_before,                         array( $this, 'before_header' ) );
+		add_action( 'genesis_header',                       array( $this, 'before_header' ), 4 );
 		// Only Mai Pro has header left.
 		if ( $this->maipro ) {
 			add_action( 'mai_header_left',                  array( $this, 'header_left' ) );
@@ -83,6 +81,10 @@ class Mai_AEC_Display {
 			.mai-aec > .wrap {
 				margin-top: 16px;
 				margin-bottom: 16px;
+			}
+			.mai-aec-header-before > .wrap {
+				padding-left: 16px;
+				padding-right: 16px;
 			}
 			.content .mai-aec > .wrap {
 				padding-left: 0;
