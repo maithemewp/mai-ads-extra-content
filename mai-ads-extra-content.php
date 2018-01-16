@@ -4,7 +4,7 @@
  * Plugin Name:     Mai - Ads & Extra Content
  * Plugin URI:      https://maipro.io
  * Description:     Enable flexible ad locations and extra content areas throughout Mai Pro & Genesis child themes.
- * Version:         0.3.0
+ * Version:         0.4.0
  *
  * Author:          Mike Hemberger, BizBudding Inc
  * Author URI:      https://bizbudding.com
@@ -89,7 +89,7 @@ final class Mai_AEC_Setup {
 
 		// Plugin version.
 		if ( ! defined( 'MAI_AEC_VERSION' ) ) {
-			define( 'MAI_AEC_VERSION', '0.3.0' );
+			define( 'MAI_AEC_VERSION', '0.4.0' );
 		}
 
 		// Plugin Folder Path.
@@ -161,7 +161,7 @@ final class Mai_AEC_Setup {
 		if ( ! class_exists( 'Puc_v4_Factory' ) ) {
 			require_once MAI_AEC_INCLUDES_DIR . 'vendor/plugin-update-checker/plugin-update-checker.php'; // 4.4
 		}
-		$updater = Puc_v4_Factory::buildUpdateChecker( 'https://github.com/maiprowp/mai-ads-extra-content/', __FILE__, 'mai-ads-extra-content' ); // 4.4
+		$updater = Puc_v4_Factory::buildUpdateChecker( 'https://github.com/maithemewp/mai-ads-extra-content/', __FILE__, 'mai-ads-extra-content' ); // 4.4
 
 		// Includes
 		$this->includes();

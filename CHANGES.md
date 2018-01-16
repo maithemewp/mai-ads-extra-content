@@ -1,5 +1,8 @@
 ### Changelog
 
+#### 0.4.0 (1/16/18)
+* Changed: Update with new repo location.
+
 #### 0.3.0 (1/5/18)
 * Changed: Now works with any Genesis child theme!
 
