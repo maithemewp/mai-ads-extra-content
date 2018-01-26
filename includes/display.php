@@ -71,6 +71,7 @@ function maiaec_maiaec_genesis_header_right() {
 	if ( class_exists( 'Mai_Theme_Engine' ) ) {
 		return;
 	}
+	echo maiaec_get_display_global( 'mai_ad_header_right', 'header_right' );
 }
 
 function maiaec_header_right() {
