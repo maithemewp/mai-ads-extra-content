@@ -1,49 +1,49 @@
 <?php
 
 /**
- * Plugin Name:     Mai - Ads & Extra Content
- * Plugin URI:      https://maipro.io
- * Description:     Enable flexible ad locations and extra content areas throughout Mai Pro & Genesis child themes.
- * Version:         0.4.0
+ * Plugin Name:     Mai Ads & Extra Content
+ * Plugin URI:      https://maitheme.com
+ * Description:     Enable flexible ad locations and extra content areas throughout Mai Theme & Genesis child themes.
+ * Version:         0.5.0
  *
- * Author:          Mike Hemberger, BizBudding Inc
- * Author URI:      https://bizbudding.com
+ * Author:          MaiTheme.com
+ * Author URI:      https://maitheme.com
  */
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
- * Main Mai_AEC_Setup Class.
+ * Main Mai_AEC Class.
  *
  * @since 0.1.1
  */
-final class Mai_AEC_Setup {
+final class Mai_AEC {
 
 	/**
-	 * @var Mai_AEC_Setup The one true Mai_AEC_Setup
+	 * @var Mai_AEC The one true Mai_AEC
 	 * @since 0.1.0
 	 */
 	private static $instance;
 
 	/**
-	 * Main Mai_AEC_Setup Instance.
+	 * Main Mai_AEC Instance.
 	 *
-	 * Insures that only one instance of Mai_AEC_Setup exists in memory at any one
+	 * Insures that only one instance of Mai_AEC exists in memory at any one
 	 * time. Also prevents needing to define globals all over the place.
 	 *
 	 * @since   0.1.0
 	 * @static  var array $instance
-	 * @uses    Mai_AEC_Setup::setup_constants() Setup the constants needed.
-	 * @uses    Mai_AEC_Setup::includes() Include the required files.
-	 * @uses    Mai_AEC_Setup::setup() Activate, deactivate, etc.
+	 * @uses    Mai_AEC::setup_constants() Setup the constants needed.
+	 * @uses    Mai_AEC::includes() Include the required files.
+	 * @uses    Mai_AEC::setup() Activate, deactivate, etc.
 	 * @see     Mai_AEC()
-	 * @return  object | Mai_AEC_Setup The one true Mai_AEC_Setup
+	 * @return  object | Mai_AEC The one true Mai_AEC
 	 */
 	public static function instance() {
 		if ( ! isset( self::$instance ) ) {
 			// Setup the init
-			self::$instance = new Mai_AEC_Setup;
+			self::$instance = new Mai_AEC;
 			// Methods
 			self::$instance->setup_constants();
 			self::$instance->setup();
@@ -89,7 +89,7 @@ final class Mai_AEC_Setup {
 
 		// Plugin version.
 		if ( ! defined( 'MAI_AEC_VERSION' ) ) {
-			define( 'MAI_AEC_VERSION', '0.4.0' );
+			define( 'MAI_AEC_VERSION', '0.5.0' );
 		}
 
 		// Plugin Folder Path.
@@ -185,9 +185,9 @@ final class Mai_AEC_Setup {
 }
 
 /**
- * The main function for that returns Mai_AEC_Setup
+ * The main function for that returns Mai_AEC
  *
- * The main function responsible for returning the one true Mai_AEC_Setup
+ * The main function responsible for returning the one true Mai_AEC
  * Instance to functions everywhere.
  *
  * Use this function like you would a global variable, except without needing
@@ -197,10 +197,10 @@ final class Mai_AEC_Setup {
  *
  * @since 0.1.0
  *
- * @return object|Mai_AEC_Setup The one true Mai_AEC_Setup Instance.
+ * @return object|Mai_AEC The one true Mai_AEC Instance.
  */
 function Mai_AEC() {
-	return Mai_AEC_Setup::instance();
+	return Mai_AEC::instance();
 }
 
 // Get Mai_AEC Running.

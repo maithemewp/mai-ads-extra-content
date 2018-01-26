@@ -3,8 +3,8 @@
 /**
  * Hook in and register a metabox to handle a theme options page and adds a menu item.
  */
-add_action( 'cmb2_admin_init', 'myprefix_register_theme_options_metabox' );
-function myprefix_register_theme_options_metabox() {
+add_action( 'cmb2_admin_init', 'maiaec_register_metabox' );
+function maiaec_register_metabox() {
 
 	/**
 	 * Registers options page menu item and form.
@@ -63,7 +63,7 @@ function myprefix_register_theme_options_metabox() {
 		),
 	) );
 
-	if ( class_exists( 'Mai_Pro_Engine' ) ) {
+	if ( class_exists( 'Mai_Theme_Engine' ) ) {
 
 		$cmb->add_field( array(
 			'name'            => __( 'Header Left', 'mai-aec' ),
