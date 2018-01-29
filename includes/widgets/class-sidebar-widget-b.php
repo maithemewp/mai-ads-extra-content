@@ -34,7 +34,7 @@ class Mai_AEC_Widget_B extends WP_Widget {
 	public function widget( $args, $instance ) {
 
 		// Get our ad code
-		$ad = maiaec_display()->get_display_global( self::$key, self::$location, false );
+		$ad = maiaec_get_display_global( self::$key, self::$location, false );
 
 		// Bail if empty
 		if ( empty( $ad ) ) {
