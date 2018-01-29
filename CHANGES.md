@@ -1,5 +1,11 @@
 ### Changelog
 
+#### 0.5.1 (1/29/18)
+* Fixed: Widgets still calling class.
+
+#### 0.5.0 (1/26/18)
+* Changed: Convert display to procedural programming so easier to remove specific ad locations. This will allow custom templates to remove specific ads as-needed.
+
 #### 0.4.0 (1/16/18)
 * Changed: Update with new repo location.
 
