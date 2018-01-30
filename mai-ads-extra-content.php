@@ -125,7 +125,7 @@ final class Mai_AEC {
 	 * @return  void
 	 */
 	public function setup() {
-		add_action( 'init',           array( $this, 'requirements' ) );
+		add_action( 'admin_init',     array( $this, 'requirements' ) );
 		add_action( 'plugins_loaded', array( $this, 'run' ) );
 	}
 
