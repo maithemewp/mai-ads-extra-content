@@ -1,5 +1,6 @@
 ### Changelog
 
+#### 0.5.1 (1/30/18)
 * Changed: Move deactivate_plugins() to admin_init hook.
 
 #### 0.5.0 (1/29/18)
