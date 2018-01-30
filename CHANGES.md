@@ -1,5 +1,7 @@
 ### Changelog
 
+* Changed: Move deactivate_plugins() to admin_init hook.
+
 #### 0.5.0 (1/29/18)
 * Changed: Convert display to procedural programming so easier to remove specific ad locations. This will allow custom templates to remove specific ads as-needed.
 
