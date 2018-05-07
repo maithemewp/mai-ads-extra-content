@@ -19,7 +19,7 @@ class Mai_AEC_Widget_A extends WP_Widget {
 		parent::__construct(
 	 		'mai_aec_widget_a', // Base ID
 			'Mai Ad "A"', // Name
-			array( 'description' => __( 'Display ad widget "A"', 'mai-aec' ), ) // Args
+			array( 'description' => __( 'Display ad widget "A"', 'mai-ads-extra-content' ), ) // Args
 		);
 	}
 
@@ -87,7 +87,7 @@ class Mai_AEC_Widget_A extends WP_Widget {
 		}
 		?>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'mai-aec' ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'mai-ads-extra-content' ); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" />
 		</p>
 		<?php

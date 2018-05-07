@@ -11,21 +11,22 @@ function maiaec_register_metabox() {
 	 */
 	$cmb = new_cmb2_box( array(
 		'id'           => 'mai_aec_metabox',
-		'title'        => __( 'Ads & Extra Content', 'mai-aec' ),
+		'title'        => __( 'Ads & Extra Content', 'mai-ads-extra-content' ),
 		'object_types' => array( 'options-page' ),
 		'option_key'   => 'mai_aec', // The option key and admin menu page slug.
 		'parent_slug'  => 'genesis', // Make options page a submenu item of the themes menu.
 	) );
 
 	$cmb->add_field( array(
-		'name' => __( 'Header/Footer Code', 'mai-aec' ),
-		'desc' => __( 'This is the header and footer code, not a display area', 'mai-aec' ),
+		'name' => __( 'Header/Footer Code', 'mai-ads-extra-content' ),
+		'desc' => __( 'This is the header and footer code, not a display area', 'mai-ads-extra-content' ),
 		'id'   => 'mai_ad_code_title',
 		'type' => 'title',
 	) );
 
 	$cmb->add_field( array(
-		'name'       => __( 'Header Code', 'mai-aec' ),
+		'name'       => __( 'Header Code', 'mai-ads-extra-content' ),
+		'desc'       => sprintf( __( 'This code will output immediately before the closing %s tag in the document source.', 'mai-ads-extra-content' ), '<code>' . esc_html( '</head>' ) . '</code>' ),
 		'id'         => 'mai_ad_header',
 		'type'       => 'textarea_code',
 		'attributes' => array(
@@ -34,7 +35,18 @@ function maiaec_register_metabox() {
 	) );
 
 	$cmb->add_field( array(
-		'name'       => __( 'Footer Code', 'mai-aec' ),
+		'name'       => __( 'Body Code', 'mai-ads-extra-content' ),
+		'desc'       => sprintf( __( 'This code will output immediately after the opening %s tag in the document source.', 'mai-ads-extra-content' ), '<code>' . esc_html( '<body>' ) . '</code>' ),
+		'id'         => 'mai_ad_body',
+		'type'       => 'textarea_code',
+		'attributes' => array(
+			'style' => 'width:100%;',
+		),
+		) );
+
+		$cmb->add_field( array(
+		'name'       => __( 'Footer Code', 'mai-ads-extra-content' ),
+		'desc'       => sprintf( __( 'This code will output immediately before the closing %s tag in the document source.', 'mai-ads-extra-content' ), '<code>' . esc_html( '</body>' ) . '</code>' ),
 		'id'         => 'mai_ad_footer',
 		'type'       => 'textarea_code',
 		'attributes' => array(
@@ -43,15 +55,15 @@ function maiaec_register_metabox() {
 	) );
 
 	$cmb->add_field( array(
-		'name' => __( 'Global Ad & Content Areas', 'mai-aec' ),
-		'desc' => __( 'These are the custom ad and content display areas displayed on every page of the site', 'mai-aec' ),
+		'name' => __( 'Global Ad & Content Areas', 'mai-ads-extra-content' ),
+		'desc' => __( 'These are the custom ad and content display areas displayed on every page of the site', 'mai-ads-extra-content' ),
 		'id'   => 'mai_ad_global_content_title',
 		'type' => 'title',
 	) );
 
 
 	$cmb->add_field( array(
-		'name'            => __( 'Before Header', 'mai-aec' ),
+		'name'            => __( 'Before Header', 'mai-ads-extra-content' ),
 		'id'              => 'mai_ad_header_before',
 		'type'            => 'wysiwyg',
 		'sanitization_cb' => 'maiaec_sanitize_wysiwyg',
@@ -66,7 +78,7 @@ function maiaec_register_metabox() {
 	if ( class_exists( 'Mai_Theme_Engine' ) ) {
 
 		$cmb->add_field( array(
-			'name'            => __( 'Header Left', 'mai-aec' ),
+			'name'            => __( 'Header Left', 'mai-ads-extra-content' ),
 			'id'              => 'mai_ad_header_left',
 			'type'            => 'wysiwyg',
 			'sanitization_cb' => 'maiaec_sanitize_wysiwyg',
@@ -81,7 +93,7 @@ function maiaec_register_metabox() {
 	}
 
 	$cmb->add_field( array(
-		'name'            => __( 'Header Right', 'mai-aec' ),
+		'name'            => __( 'Header Right', 'mai-ads-extra-content' ),
 		'id'              => 'mai_ad_header_right',
 		'type'            => 'wysiwyg',
 		'sanitization_cb' => 'maiaec_sanitize_wysiwyg',
@@ -94,7 +106,7 @@ function maiaec_register_metabox() {
 	) );
 
 	$cmb->add_field( array(
-		'name'            => __( 'After Header', 'mai-aec' ),
+		'name'            => __( 'After Header', 'mai-ads-extra-content' ),
 		'id'              => 'mai_ad_header_after',
 		'type'            => 'wysiwyg',
 		'sanitization_cb' => 'maiaec_sanitize_wysiwyg',
@@ -107,7 +119,7 @@ function maiaec_register_metabox() {
 	) );
 
 	$cmb->add_field( array(
-		'name'            => __( 'Before Footer', 'mai-aec' ),
+		'name'            => __( 'Before Footer', 'mai-ads-extra-content' ),
 		'id'              => 'mai_ad_before_footer',
 		'type'            => 'wysiwyg',
 		'sanitization_cb' => 'maiaec_sanitize_wysiwyg',
@@ -120,8 +132,8 @@ function maiaec_register_metabox() {
 	) );
 
 	$cmb->add_field( array(
-		'name' => __( 'Entry Ad & Content Areas', 'mai-aec' ),
-		'desc' => __( 'These are the custom ad and content display areas displayed on single entries', 'mai-aec' ),
+		'name' => __( 'Entry Ad & Content Areas', 'mai-ads-extra-content' ),
+		'desc' => __( 'These are the custom ad and content display areas displayed on single entries', 'mai-ads-extra-content' ),
 		'id'   => 'mai_ad_entry_content_title',
 		'type' => 'title',
 	) );
@@ -131,7 +143,7 @@ function maiaec_register_metabox() {
 		'type'       => 'group',
 		'repeatable' => false,
 		'options'    => array(
-			'group_title' => __( 'Before Entry', 'mai-aec' ),
+			'group_title' => __( 'Before Entry', 'mai-ads-extra-content' ),
 		),
 	) );
 	$cmb->add_group_field( $before_entry, maiaec_get_group_post_type_field_config() );
@@ -142,7 +154,7 @@ function maiaec_register_metabox() {
 		'type'       => 'group',
 		'repeatable' => false,
 		'options'    => array(
-			'group_title' => __( 'Before Entry Content', 'mai-aec' ),
+			'group_title' => __( 'Before Entry Content', 'mai-ads-extra-content' ),
 		),
 	) );
 	$cmb->add_group_field( $before_entry_content, maiaec_get_group_post_type_field_config() );
@@ -153,16 +165,16 @@ function maiaec_register_metabox() {
 		'type'       => 'group',
 		'repeatable' => true,
 		'options'    => array(
-			'group_title'   => __( 'Entry Content Ad {#}', 'mai-aec' ),
-			'add_button'    => __( 'Add New Entry Content Ad', 'mai-aec' ),
-			'remove_button' => __( 'Remove Ad Location', 'mai-aec' ),
+			'group_title'   => __( 'Entry Content Ad {#}', 'mai-ads-extra-content' ),
+			'add_button'    => __( 'Add New Entry Content Ad', 'mai-ads-extra-content' ),
+			'remove_button' => __( 'Remove Ad Location', 'mai-ads-extra-content' ),
 			'sortable'      => true,
 		),
 	) );
 	$cmb->add_group_field( $entry_content, maiaec_get_group_post_type_field_config() );
 	$cmb->add_group_field( $entry_content, array(
-		'name'       => __( 'Paragraphs', 'mai-aec' ),
-		'desc'       => __( 'Display ad after this many paragraphs', 'mai-aec' ),
+		'name'       => __( 'Paragraphs', 'mai-ads-extra-content' ),
+		'desc'       => __( 'Display content after this many paragraphs', 'mai-ads-extra-content' ),
 		'id'         => 'count',
 		'type'       => 'text_small',
 		'attributes' => array(
@@ -178,7 +190,7 @@ function maiaec_register_metabox() {
 		'type'       => 'group',
 		'repeatable' => false,
 		'options'    => array(
-			'group_title' => __( 'After Entry Content', 'mai-aec' ),
+			'group_title' => __( 'After Entry Content', 'mai-ads-extra-content' ),
 		),
 	) );
 	$cmb->add_group_field( $after_entry_content, maiaec_get_group_post_type_field_config() );
@@ -189,7 +201,7 @@ function maiaec_register_metabox() {
 		'type'       => 'group',
 		'repeatable' => false,
 		'options'    => array(
-			'group_title' => __( 'After Entry (A)', 'mai-aec' ),
+			'group_title' => __( 'After Entry (A)', 'mai-ads-extra-content' ),
 		),
 	) );
 	$cmb->add_group_field( $after_entry_a, maiaec_get_group_post_type_field_config() );
@@ -200,7 +212,7 @@ function maiaec_register_metabox() {
 		'type'       => 'group',
 		'repeatable' => false,
 		'options'    => array(
-			'group_title' => __( 'After Entry (B)', 'mai-aec' ),
+			'group_title' => __( 'After Entry (B)', 'mai-ads-extra-content' ),
 		),
 	) );
 	$cmb->add_group_field( $after_entry_b, maiaec_get_group_post_type_field_config() );
@@ -211,20 +223,20 @@ function maiaec_register_metabox() {
 		'type'       => 'group',
 		'repeatable' => false,
 		'options'    => array(
-			'group_title' => __( 'After Entry (C)', 'mai-aec' ),
+			'group_title' => __( 'After Entry (C)', 'mai-ads-extra-content' ),
 		),
 	) );
 	$cmb->add_group_field( $after_entry_c, maiaec_get_group_post_type_field_config() );
 	$cmb->add_group_field( $after_entry_c, maiaec_get_group_ad_field_config() );
 
 	$cmb->add_field( array(
-		'name' => __( 'Widgets', 'mai-aec' ),
+		'name' => __( 'Widgets', 'mai-ads-extra-content' ),
 		'id'   => 'mai_ad_widgets_title',
 		'type' => 'title',
 	) );
 
 	$cmb->add_field( array(
-		'name'            => __( 'Widget A', 'mai-aec' ),
+		'name'            => __( 'Widget A', 'mai-ads-extra-content' ),
 		'id'              => 'mai_ad_widget_a',
 		'type'            => 'wysiwyg',
 		'sanitization_cb' => 'maiaec_sanitize_wysiwyg',
@@ -237,7 +249,7 @@ function maiaec_register_metabox() {
 	) );
 
 	$cmb->add_field( array(
-		'name'            => __( 'Widget B', 'mai-aec' ),
+		'name'            => __( 'Widget B', 'mai-ads-extra-content' ),
 		'id'              => 'mai_ad_widget_b',
 		'type'            => 'wysiwyg',
 		'sanitization_cb' => 'maiaec_sanitize_wysiwyg',
@@ -250,7 +262,7 @@ function maiaec_register_metabox() {
 	) );
 
 	$cmb->add_field( array(
-		'name'            => __( 'Widget C', 'mai-aec' ),
+		'name'            => __( 'Widget C', 'mai-ads-extra-content' ),
 		'id'              => 'mai_ad_widget_c',
 		'type'            => 'wysiwyg',
 		'sanitization_cb' => 'maiaec_sanitize_wysiwyg',
@@ -282,8 +294,8 @@ function maiaec_get_group_post_type_field_config() {
 	// Remove Media as an option
 	unset( $post_type_options['attachment'] );
 	return array(
-		'name'              => __( 'Post Types', 'mai-aec' ),
-		'desc'              => __( 'Post types to display this content area on', 'mai-aec' ),
+		'name'              => __( 'Post Types', 'mai-ads-extra-content' ),
+		'desc'              => __( 'Post types to display this content area on', 'mai-ads-extra-content' ),
 		'id'                => 'post_types',
 		'type'              => 'multicheck_inline',
 		'select_all_button' => false,
@@ -293,7 +305,7 @@ function maiaec_get_group_post_type_field_config() {
 
 function maiaec_get_group_ad_field_config() {
 	return array(
-		'name'            => __( 'Content', 'mai-aec' ),
+		'name'            => __( 'Content', 'mai-ads-extra-content' ),
 		'id'              => 'content',
 		'type'            => 'wysiwyg',
 		'sanitization_cb' => 'maiaec_sanitize_wysiwyg',

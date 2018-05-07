@@ -3,6 +3,7 @@
 // Hooks.
 add_action( 'wp_enqueue_scripts',                   'maiaec_css', 1000 ); // Way late cause Engine changes stylesheet to 999.
 add_action( 'wp_head',                              'maiaec_header' );
+add_action( 'genesis_before',                       'maiaec_body' );
 add_action( 'wp_footer',                            'maiaec_footer' );
 add_action( 'genesis_header',                       'maiaec_before_header', 4 );
 add_action( 'mai_header_left',                      'maiaec_header_left' );
@@ -53,6 +54,10 @@ function maiaec_css() {
 
 function maiaec_header() {
 	echo maiaec_display_header_footer( 'mai_ad_header', 'header' );
+}
+
+function maiaec_body() {
+	echo maiaec_display_header_footer( 'mai_ad_body', 'body' );
 }
 
 function maiaec_footer() {

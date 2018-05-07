@@ -4,7 +4,8 @@
  * Plugin Name:     Mai Ads & Extra Content
  * Plugin URI:      https://maitheme.com
  * Description:     Enable flexible ad locations and extra content areas throughout Mai Theme & Genesis child themes.
- * Version:         0.5.1
+ * Text Domain:     mai-ads-extra-content
+ * Version:         0.6.0
  *
  * Author:          MaiTheme.com
  * Author URI:      https://maitheme.com
@@ -35,7 +36,6 @@ final class Mai_AEC {
 	 * @since   0.1.0
 	 * @static  var array $instance
 	 * @uses    Mai_AEC::setup_constants() Setup the constants needed.
-	 * @uses    Mai_AEC::includes() Include the required files.
 	 * @uses    Mai_AEC::setup() Activate, deactivate, etc.
 	 * @see     Mai_AEC()
 	 * @return  object | Mai_AEC The one true Mai_AEC
@@ -89,7 +89,7 @@ final class Mai_AEC {
 
 		// Plugin version.
 		if ( ! defined( 'MAI_AEC_VERSION' ) ) {
-			define( 'MAI_AEC_VERSION', '0.5.1' );
+			define( 'MAI_AEC_VERSION', '0.6.0' );
 		}
 
 		// Plugin Folder Path.
@@ -143,7 +143,7 @@ final class Mai_AEC {
 		 */
 		if ( 'genesis' !== get_option( 'template' ) ) {
 			deactivate_plugins( plugin_basename( __FILE__ ) );
-			wp_die( sprintf( __( 'Sorry, Mai - Ads & Extra Content cannot be activated unless you have installed <a href="%s">Genesis</a>', 'mai-ads-extra-content' ), 'http://my.studiopress.com/themes/genesis/' ) );
+			wp_die( sprintf( __( 'Sorry, Mai Ads & Extra Content cannot be activated unless you have installed <a href="%s">Genesis</a>', 'mai-ads-extra-content' ), 'http://my.studiopress.com/themes/genesis/' ) );
 		}
 	}
 
