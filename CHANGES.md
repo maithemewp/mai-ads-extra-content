@@ -1,5 +1,9 @@
 ### Changelog
 
+#### 0.5.2 (5/16/18)
+* Fixed: In content ads no longer counts the paragraphs of the previous inserted ads.
+* Fixed: Widget C not displaying.
+
 #### 0.5.1 (1/30/18)
 * Changed: Move deactivate_plugins() to admin_init hook.
 
