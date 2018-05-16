@@ -1,23 +1,23 @@
 <?php
 
 // Register our new widget
-add_action( 'widgets_init', 'mai_aec_register_ad_widget_C' );
-function mai_aec_register_ad_widget_C() {
-    register_widget( 'Mai_AEC_Widget_C' );
+add_action( 'widgets_init', 'mai_aec_register_ad_widget_c' );
+function mai_aec_register_ad_widget_c() {
+    register_widget( 'Mai_AEC_Widget_c' );
 }
 
 class Mai_AEC_Widget_C extends WP_Widget {
 
-	protected static $key = 'mai_ad_widget_C';
+	protected static $key = 'mai_ad_widget_c';
 
-	protected static $location = 'widget_C';
+	protected static $location = 'widget_c';
 
 	/**
 	 * Register widget with WordPress.
 	 */
 	public function __construct() {
 		parent::__construct(
-	 		'mai_aec_widget_C', // Base ID
+	 		'mai_aec_widget_c', // Base ID
 			'Mai Ad "C"', // Name
 			array( 'description' => __( 'Display ad widget "C"', 'mai-ads-extra-content' ), ) // Args
 		);

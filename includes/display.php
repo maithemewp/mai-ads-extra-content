@@ -220,50 +220,73 @@ function maiaec_get_display_singular( $key, $location ) {
  */
 function maiaec_get_display_singular_in_content( $key, $location ) {
 
-	// Bail if not a singular post
+	// Bail if not a singular post.
 	if ( ! is_singular() ) {
 		return;
 	}
 
-	// Get the data
+	// Get the data.
 	$data = maiaec_maybe_get_option( $key, $location );
 
-	// Bail if no data
+	// Bail if no data.
 	if ( ! $data ) {
 		return;
 	}
 
-	// Display ad after 'n' paragraph
+	// Add placeholder after 'n' paragraph.
 	add_filter( 'the_content', function( $content ) use ( $data, $location ) {
 
-		// Bail if not the main query
+		// Bail if not the main query.
 		if ( ! is_main_query() ) {
 			return $content;
 		}
 
-		// Loop through the ad locations
+		$temp_data = array();
+
+		// Loop through the ad locations.
 		foreach ( $data as $ad ) {
 
-			// Bail if no post types available
+			// Bail if no post types available.
 			if ( ! isset( $ad['post_types'] ) || ! $ad['post_types'] ) {
 				continue;
 			}
 
-			// Bail if not on the correct post type
+			// Bail if not on the correct post type.
 			if ( ! in_array( get_post_type(), $ad['post_types'] ) ) {
 				continue;
 			}
 
-			// Bail if no paragraph or no content
+			// Bail if no paragraph or no content.
 			if ( ! isset( $ad['count'] ) || ! isset( $ad['content'] ) ) {
 				continue;
 			}
 
-			// Add the paragraphs
-			$content = maiaec_get_content_with_ad_after_p( maiaec_get_processed_content( $ad['content'] ), $content, $ad['count'], $location );
+			// Build random placeholder string.
+			$placeholder = sprintf( 'maiaec_%s', wp_rand() );
+
+			// Add placeholder and content to the temp array.
+			$temp_data[] = array(
+				'placeholder' => $placeholder,
+				'content'     => $ad['content'],
+			);
+
+			// Add placeholder after the specific paragraph.
+			$content = maiaec_get_content_with_placeholder_after_p( $placeholder, $content, $ad['count'] );
 		}
 
-		return $content;
+		// Build the HTML class name from the location.
+		$class = sanitize_html_class( str_replace( '_', '-', $location ) );
+
+		// Loop through our temp data.
+		foreach( $temp_data as $data ) {
+			// Build the HTML.
+			$new_content = sprintf( '<div class="mai-aec mai-aec-%s"><div class="wrap">%s</div></div>', $class, $data['content'] );
+			// Replace placeholder string with new HTML.
+			$content = str_replace( $data['placeholder'], $new_content, $content );
+		}
+
+		// Return the processed content.
+		return maiaec_get_processed_content( $content );
 	});
 }
 
@@ -282,20 +305,17 @@ function maiaec_get_display_singular_in_content( $key, $location ) {
  *
  * @return  string  The modified content
  */
-function maiaec_get_content_with_ad_after_p( $new_content, $existing_content, $paragraph_number, $location ) {
+function maiaec_get_content_with_placeholder_after_p( $new_content, $existing_content, $paragraph_number ) {
 
 	// Get the paragraphs array prior to adding and ads
-	$paragraphs = explode( '</p>', wpautop( $existing_content ) );
-
-	// Build the HTML class name from the location
-	$class = str_replace( '_', '-', $location );
+	$paragraphs = explode( '</p>', $existing_content );
 
 	foreach ( $paragraphs as $index => $paragraph ) {
 		if ( trim( $paragraph ) ) {
 			$paragraphs[$index] .= '</p>';
 		}
 		if ( (int) $paragraph_number == $index + 1 ) {
-			$paragraphs[$index] .= sprintf( '<div class="mai-aec mai-aec-%s"><div class="wrap">%s</div></div>', $class, maiaec_get_processed_content( $new_content ) );
+			$paragraphs[$index] .= $new_content;
 		}
 	}
 	return implode( '', $paragraphs );
