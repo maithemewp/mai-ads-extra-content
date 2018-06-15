@@ -136,8 +136,8 @@ function maiaec_display_header_footer( $key, $location ) {
 		return;
 	}
 
-	// Display it!
-	echo $data;
+	// Display it! Parse shortcodes so cookie notice shortcode can work ;)
+	echo do_shortcode( $data );
 }
 
 /**
