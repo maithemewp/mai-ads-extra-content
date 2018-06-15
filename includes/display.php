@@ -136,8 +136,8 @@ function maiaec_display_header_footer( $key, $location ) {
 		return;
 	}
 
-	// Display it!
-	echo $data;
+	// Display it! Parse shortcodes so cookie notice shortcode can work ;)
+	echo do_shortcode( $data );
 }
 
 /**
@@ -287,12 +287,13 @@ function maiaec_get_display_singular_in_content( $key, $location ) {
 
 		// Return the processed content.
 		return maiaec_get_processed_content( $content );
-	});
+
+	}, 30, 1 );
 }
 
 /**
  * Insert content after a specific paragraph
- * When running on the_content, use priority > 20 so it doesn't affect oEmbed
+ * When running on the_content, use priority > 20 so it doesn't affect oEmbed.
  *
  * @link    http://www.wpbeginner.com/wp-tutorials/how-to-insert-ads-within-your-post-content-in-wordpress/
  * @link    http://www.billerickson.net/code/insert-after-paragraph/
@@ -307,7 +308,7 @@ function maiaec_get_display_singular_in_content( $key, $location ) {
  */
 function maiaec_get_content_with_placeholder_after_p( $new_content, $existing_content, $paragraph_number ) {
 
-	// Get the paragraphs array prior to adding and ads
+	// Get the paragraphs array prior to adding and ads.
 	$paragraphs = explode( '</p>', $existing_content );
 
 	foreach ( $paragraphs as $index => $paragraph ) {

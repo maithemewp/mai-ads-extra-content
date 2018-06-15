@@ -1,5 +1,8 @@
 ### Changelog
 
+#### 0.6.2 (6/15/18)
+* Changed: Header/Footer locations now do_shortcode(), mostly for cookie notice shortcodes.
+
 #### 0.6.1 (5/16/18)
 * Fixed: In content ads no longer counts the paragraphs of the previous inserted ads.
 * Fixed: Widget C not displaying.
