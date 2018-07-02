@@ -263,7 +263,7 @@ function maiaec_get_display_singular_in_content( $key, $location ) {
 	}
 
 	// Add placeholder after 'n' paragraph.
-	add_filter( 'the_content', function( $content ) use ( $ads, $placeholders, $location ) {
+	add_filter( 'the_content', function( $content ) use ( $ads, $location ) {
 
 		// Bail if not the main query.
 		if ( ! is_main_query() ) {
