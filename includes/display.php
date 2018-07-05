@@ -281,7 +281,7 @@ function maiaec_get_display_singular_in_content( $key, $location ) {
 		 * LIBXML_HTML_NOIMPLIED turns off the automatic adding of implied html/body elements.
 		 * LIBXML_HTML_NODEFDTD prevents a default doctype being added when one is not found.
 		 */
-		$dom->loadHTML( $content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
+		$dom->loadHTML( mb_convert_encoding( $content, 'HTML-ENTITIES', 'UTF-8' ), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
 
 		$new_content = '';
 
