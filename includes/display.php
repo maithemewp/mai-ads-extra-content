@@ -3,7 +3,7 @@
 // Hooks.
 add_action( 'wp_enqueue_scripts',                   'maiaec_css', 1000 ); // Way late cause Engine changes stylesheet to 999.
 add_action( 'wp_head',                              'maiaec_header' );
-add_action( 'genesis_before',                       'maiaec_body' );
+add_action( 'genesis_before',                       'maiaec_body', 4 );
 add_action( 'wp_footer',                            'maiaec_footer' );
 add_action( 'genesis_header',                       'maiaec_before_header', 4 );
 add_action( 'mai_header_left',                      'maiaec_header_left' );
@@ -212,7 +212,7 @@ function maiaec_get_display_singular( $key, $location ) {
 }
 
 /**
- * Get the content with adds after paragraphs.
+ * Get the content with ads after paragraphs.
  *
  * @access  private
  *
@@ -233,93 +233,76 @@ function maiaec_get_display_singular_in_content( $key, $location ) {
 		return;
 	}
 
+	// Start the ads array.
+	$ads = array();
+
+	foreach ( $data as $ad ) {
+
+		// Bail if no post types available.
+		if ( ! isset( $ad['post_types'] ) || ! $ad['post_types'] ) {
+			continue;
+		}
+
+		// Bail if not on the correct post type.
+		if ( ! in_array( get_post_type(), $ad['post_types'] ) ) {
+			continue;
+		}
+
+		// Bail if no paragraph or no content.
+		if ( ! isset( $ad['count'] ) || ! isset( $ad['content'] ) ) {
+			continue;
+		}
+
+		// Add count and content to the ads array.
+		$ads[ (int) $ad['count'] ] = sprintf( '<div class="mai-aec mai-aec-entry-content"><div class="wrap">%s</div></div>', $ad['content']	);
+	}
+
+	// Bail if no ads.
+	if ( empty( $ads ) ) {
+		return;
+	}
+
 	// Add placeholder after 'n' paragraph.
-	add_filter( 'the_content', function( $content ) use ( $data, $location ) {
+	add_filter( 'the_content', function( $content ) use ( $ads, $location ) {
 
 		// Bail if not the main query.
 		if ( ! is_main_query() ) {
 			return $content;
 		}
 
-		$temp_data = array();
+		// Create the new document.
+		$dom = new DOMDocument;
 
-		// Loop through the ad locations.
-		foreach ( $data as $ad ) {
+		// Not sure we need these.
+		$dom->preserveWhiteSpace = false;
+		$dom->formatOutput       = true;
 
-			// Bail if no post types available.
-			if ( ! isset( $ad['post_types'] ) || ! $ad['post_types'] ) {
-				continue;
+		/**
+		 * LIBXML_HTML_NOIMPLIED turns off the automatic adding of implied html/body elements.
+		 * LIBXML_HTML_NODEFDTD prevents a default doctype being added when one is not found.
+		 */
+		$dom->loadHTML( mb_convert_encoding( $content, 'HTML-ENTITIES', 'UTF-8' ), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
+
+		$new_content = '';
+
+		// Loop through the nodes.
+		foreach( $dom->documentElement->childNodes as $index => $node ) {
+
+			// The item number. The first content item is 1, not 0.
+			$item = $index + 1;
+
+			// If we have content after this item, add it.
+			if ( isset( $ads[ $item ] ) && ! empty( $ads[ $item ] ) ) {
+				$new_content .= $dom->saveHTML( $node ) . $ads[ $item ];
 			}
-
-			// Bail if not on the correct post type.
-			if ( ! in_array( get_post_type(), $ad['post_types'] ) ) {
-				continue;
+			else {
+				$new_content .= $dom->saveHTML( $node );
 			}
-
-			// Bail if no paragraph or no content.
-			if ( ! isset( $ad['count'] ) || ! isset( $ad['content'] ) ) {
-				continue;
-			}
-
-			// Build random placeholder string.
-			$placeholder = sprintf( 'maiaec_%s', wp_rand() );
-
-			// Add placeholder and content to the temp array.
-			$temp_data[] = array(
-				'placeholder' => $placeholder,
-				'content'     => $ad['content'],
-			);
-
-			// Add placeholder after the specific paragraph.
-			$content = maiaec_get_content_with_placeholder_after_p( $placeholder, $content, $ad['count'] );
 		}
 
-		// Build the HTML class name from the location.
-		$class = sanitize_html_class( str_replace( '_', '-', $location ) );
-
-		// Loop through our temp data.
-		foreach( $temp_data as $data ) {
-			// Build the HTML.
-			$new_content = sprintf( '<div class="mai-aec mai-aec-%s"><div class="wrap">%s</div></div>', $class, $data['content'] );
-			// Replace placeholder string with new HTML.
-			$content = str_replace( $data['placeholder'], $new_content, $content );
-		}
-
-		// Return the processed content.
-		return maiaec_get_processed_content( $content );
+		return maiaec_get_processed_content( $new_content );
 
 	}, 30, 1 );
-}
-
-/**
- * Insert content after a specific paragraph
- * When running on the_content, use priority > 20 so it doesn't affect oEmbed.
- *
- * @link    http://www.wpbeginner.com/wp-tutorials/how-to-insert-ads-within-your-post-content-in-wordpress/
- * @link    http://www.billerickson.net/code/insert-after-paragraph/
- *
- * @access  private
- *
- * @param   string  $new_content
- * @param   string  $existing_content
- * @param   int     $paragraph_number
- *
- * @return  string  The modified content
- */
-function maiaec_get_content_with_placeholder_after_p( $new_content, $existing_content, $paragraph_number ) {
-
-	// Get the paragraphs array prior to adding and ads.
-	$paragraphs = explode( '</p>', $existing_content );
-
-	foreach ( $paragraphs as $index => $paragraph ) {
-		if ( trim( $paragraph ) ) {
-			$paragraphs[$index] .= '</p>';
-		}
-		if ( (int) $paragraph_number == $index + 1 ) {
-			$paragraphs[$index] .= $new_content;
-		}
-	}
-	return implode( '', $paragraphs );
 }
 
 /**
