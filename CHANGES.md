@@ -1,6 +1,6 @@
 ### Changelog
 
-#### 0.7.0 (TBD)
+#### 0.7.0 (7/11/18)
 * Changed: Entry content ads now count top level elements, not just nested p's.
 
 #### 0.6.2 (6/15/18)
