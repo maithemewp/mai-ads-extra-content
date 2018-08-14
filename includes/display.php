@@ -270,6 +270,11 @@ function maiaec_get_display_singular_in_content( $key, $location ) {
 			return $content;
 		}
 
+		// Requires PHP 5.3.6 and above.
+		if ( version_compare( PHP_VERSION, '5.4.0', '<' ) ) {
+			return $content;
+		}
+
 		// Create the new document.
 		$dom = new DOMDocument;
 
@@ -278,29 +283,54 @@ function maiaec_get_display_singular_in_content( $key, $location ) {
 		$dom->formatOutput       = true;
 
 		/**
+		 * Load the content in the document HTML.
+		 *
+		 * We need to wrap in another element (<html>) so things don't blow up.
+		 *
+		 * @link http://php.net/manual/en/domdocument.savehtml.php#121444
+		 * "When saving HTML fragment initiated with LIBXML_HTML_NOIMPLIED option, it will end up being "broken" as libxml requires root element.
+		 * libxml will attempt to fix the fragment by adding closing tag at the end of string based on the first opened tag it encounters in the fragment."
+		 *
 		 * LIBXML_HTML_NOIMPLIED turns off the automatic adding of implied html/body elements.
 		 * LIBXML_HTML_NODEFDTD prevents a default doctype being added when one is not found.
 		 */
-		$dom->loadHTML( mb_convert_encoding( $content, 'HTML-ENTITIES', 'UTF-8' ), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
+		$dom->loadHTML( mb_convert_encoding( '<html>' . $content . '</html>', 'HTML-ENTITIES', 'UTF-8' ), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
 
-		$new_content = '';
+		$xpath    = new DOMXPath( $dom );
+		$elements = $xpath->query( 'p|div' );
 
-		// Loop through the nodes.
-		foreach( $dom->documentElement->childNodes as $index => $node ) {
+		$item = 0;
 
-			// The item number. The first content item is 1, not 0.
-			$item = $index + 1;
+		if ( $elements->length ) {
+			foreach ( $elements as $element ) {
 
-			// If we have content after this item, add it.
-			if ( isset( $ads[ $item ] ) && ! empty( $ads[ $item ] ) ) {
-				$new_content .= $dom->saveHTML( $node ) . $ads[ $item ];
-			}
-			else {
-				$new_content .= $dom->saveHTML( $node );
+				// First ad would be after the first element.
+				$item++;
+
+				// If we don't have an add after this item, move on.
+				if ( ! isset( $ads[ $item ] ) || empty( $ads[ $item ] ) ) {
+					continue;
+				}
+				$fragment = $dom->createDocumentFragment();
+				$fragment->appendXml( $ads[ $item ] );
+				$element->appendChild( $fragment );
 			}
 		}
 
-		return maiaec_get_processed_content( $new_content );
+		$content = $dom->saveHTML( $dom->documentElement );
+
+		/**
+		 * This removes the <html> (6 chars) from the start
+		 * and </html> (7 chars) from the end.
+		 */
+		$content = substr( $content, 6, -7 );
+
+		/**
+		 * Return the content,
+		 * also checking for shortcodes/embeds/etc
+		 * in the extra content fields.
+		 */
+		return maiaec_get_processed_content( $content );
 
 	}, 30, 1 );
 }
