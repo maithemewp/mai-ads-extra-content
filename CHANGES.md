@@ -1,5 +1,8 @@
 ### Changelog
 
+#### 0.7.1 (TBD)
+* Changed: COunt only top level div's and p's. Fixes issue counting inline <a> links.
+
 #### 0.7.0 (7/11/18)
 * Changed: Entry content ads now count top level elements, not just nested p's.
 
