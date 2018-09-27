@@ -153,6 +153,10 @@ final class Mai_AEC {
 	 * @return  void
 	 */
 	function run() {
+		// Bail if not backend.
+		if ( ! is_admin() ) {
+			return;
+		}
 		/**
 		 * Setup the updater.
 		 *
@@ -161,7 +165,7 @@ final class Mai_AEC {
 		if ( ! class_exists( 'Puc_v4_Factory' ) ) {
 			require_once MAI_AEC_INCLUDES_DIR . 'vendor/plugin-update-checker/plugin-update-checker.php'; // 4.4
 		}
-		$updater = Puc_v4_Factory::buildUpdateChecker( 'https://github.com/maithemewp/mai-ads-extra-content/', __FILE__, 'mai-ads-extra-content' ); // 4.4
+		$updater = Puc_v4_Factory::buildUpdateChecker( 'https://github.com/maithemewp/mai-ads-extra-content/', __FILE__, 'mai-ads-extra-content' );
 
 		// Includes
 		$this->includes();
