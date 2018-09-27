@@ -1,5 +1,9 @@
 ### Changelog
 
+#### 0.8.0 (9/27/18)
+* Changed: Count only top level div's and p's. Fixes issue counting inline <a> links.
+* Changed: Only show errors if WP_DEBUG is true.
+
 #### 0.7.0 (7/11/18)
 * Changed: Entry content ads now count top level elements, not just nested p's.
 
