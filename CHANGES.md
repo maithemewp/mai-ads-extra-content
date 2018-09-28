@@ -1,5 +1,8 @@
 ### Changelog
 
+#### 0.8.1 (9/28/18)
+* Fixed: Files only loading in backend.
+
 #### 0.8.0 (9/27/18)
 * Changed: Count only top level div's and p's. Fixes issue counting inline <a> links.
 * Changed: Only show errors if WP_DEBUG is true.
