@@ -287,7 +287,6 @@ function maiaec_get_display_singular_in_content( $key, $location ) {
 		$dom->preserveWhiteSpace = false;
 		$dom->formatOutput       = true;
 
-
 		/**
 		 * @todo: Follow some strictness from here
 		 * @link https://gist.github.com/tommcfarlin/44178197b6878eb43e369cf6e5de09fc#file-02-acme-add-image-attrbutes-php
