@@ -1,5 +1,8 @@
 ### Changelog
 
+#### 0.8.2 (10/25/18)
+* Changed: Suppress errors due to malformed HTML.
+
 #### 0.8.1 (9/28/18)
 * Fixed: Files only loading in backend.
 

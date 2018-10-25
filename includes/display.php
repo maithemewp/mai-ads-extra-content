@@ -275,10 +275,8 @@ function maiaec_get_display_singular_in_content( $key, $location ) {
 			return $content;
 		}
 
-		// If debug is false, suppress errors.
-		if ( ! ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ) {
-			libxml_use_internal_errors( true );
-		}
+		// Suppress errors.
+		libxml_use_internal_errors( true );
 
 		// Create the new document.
 		$dom = new DOMDocument;
@@ -286,7 +284,6 @@ function maiaec_get_display_singular_in_content( $key, $location ) {
 		// Not sure we need these.
 		$dom->preserveWhiteSpace = false;
 		$dom->formatOutput       = true;
-
 
 		/**
 		 * @todo: Follow some strictness from here
