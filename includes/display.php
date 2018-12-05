@@ -254,7 +254,7 @@ function maiaec_get_display_singular_in_content( $key, $location ) {
 		}
 
 		// Add count and content to the ads array.
-		$ads[ (int) $ad['count'] ] = sprintf( '<div class="mai-aec mai-aec-entry-content"><div class="wrap">%s</div></div>', $ad['content']	);
+		$ads[ (int) $ad['count'] ] = sprintf( '<div class="mai-aec mai-aec-entry-content"><div class="wrap">%s</div></div>', maiaec_get_processed_content( $ad['content'] ) );
 	}
 
 	// Bail if no ads.
@@ -333,12 +333,8 @@ function maiaec_get_display_singular_in_content( $key, $location ) {
 		 */
 		$content = substr( $content, 6, -7 );
 
-		/**
-		 * Return the content,
-		 * also checking for shortcodes/embeds/etc
-		 * in the extra content fields.
-		 */
-		return maiaec_get_processed_content( $content );
+		// Bring it home.
+		return $content;
 
 	}, 30, 1 );
 }
