@@ -1,5 +1,9 @@
 ### Changelog
 
+
+#### 0.8.3 (12/5/18)
+* Changed: Only process content (wpautop/embeds/etc) on the ad content itself, not on all the content when displaying in-content ads or extra content.
+
 #### 0.8.2 (10/25/18)
 * Changed: Suppress errors due to malformed HTML.
 
