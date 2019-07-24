@@ -46,7 +46,8 @@ final class Mai_AEC {
 			self::$instance = new Mai_AEC;
 			// Methods
 			self::$instance->setup_constants();
-			self::$instance->setup();
+			self::$instance->includes();
+			self::$instance->hooks();
 		}
 		return self::$instance;
 	}
@@ -120,13 +121,56 @@ final class Mai_AEC {
 	}
 
 	/**
+	 * Include required files.
+	 *
+	 * @access  private
+	 * @since   0.1.0
+	 * @return  void
+	 */
+	private function includes() {
+		// Autoload.
+		require_once __DIR__ . '/vendor/autoload.php';
+		// Vendor.
+		require_once MAI_AEC_INCLUDES_DIR . 'vendor/CMB2/init.php';
+		// Internal.
+		foreach ( glob( MAI_AEC_INCLUDES_DIR . '*.php' ) as $file ) { include $file; }
+		foreach ( glob( MAI_AEC_INCLUDES_DIR . 'widgets/*.php' ) as $file ) { include $file; }
+	}
+
+
+	/**
 	 * Setup the plugin.
 	 *
 	 * @return  void
 	 */
-	public function setup() {
-		add_action( 'admin_init',     array( $this, 'requirements' ) );
-		add_action( 'plugins_loaded', array( $this, 'run' ) );
+	public function hooks() {
+		add_action( 'admin_init', array( $this, 'updater' ) );
+		add_action( 'admin_init', array( $this, 'requirements' ) );
+	}
+
+	/**
+	 * Setup the updater.
+	 *
+	 * composer require yahnis-elsts/plugin-update-checker
+	 *
+	 * @uses    https://github.com/YahnisElsts/plugin-update-checker/
+	 *
+	 * @return  void
+	 */
+	public function updater() {
+
+		// Bail if current user cannot manage plugins.
+		if ( ! current_user_can( 'install_plugins' ) ) {
+			return;
+		}
+
+		// Bail if plugin updater is not loaded.
+		if ( ! class_exists( 'Puc_v4_Factory' ) ) {
+			return;
+		}
+
+		// Setup the updater.
+		$updater = Puc_v4_Factory::buildUpdateChecker( 'https://github.com/maithemewp/mai-ads-extra-content/', __FILE__, 'mai-ads-extra-content' );
 	}
 
 	/**
@@ -143,48 +187,11 @@ final class Mai_AEC {
 		 */
 		if ( 'genesis' !== get_option( 'template' ) ) {
 			deactivate_plugins( plugin_basename( __FILE__ ) );
-			wp_die( sprintf( __( 'Sorry, Mai Ads & Extra Content cannot be activated unless you have installed <a href="%s">Genesis</a>', 'mai-ads-extra-content' ), 'http://my.studiopress.com/themes/genesis/' ) );
+			add_action( 'admin_notices', function() {
+				$notice = sprintf( __( 'Sorry, Mai Ads & Extra Content cannot be activated unless you have installed <a href="%s">Genesis</a>', 'mai-ads-extra-content' ), 'http://my.studiopress.com/themes/genesis/' );
+				printf( '<div id="message" class="error notice"><p>%s</p></div>', wp_kses_post( $notice ) );
+			});
 		}
-	}
-
-	/**
-	 * Initialize the plugin.
-	 *
-	 * @return  void
-	 */
-	function run() {
-
-		// Includes.
-		$this->includes();
-
-		// Bail if not backend.
-		if ( ! is_admin() ) {
-			return;
-		}
-		/**
-		 * Setup the updater.
-		 *
-		 * @uses  https://github.com/YahnisElsts/plugin-update-checker/
-		 */
-		if ( ! class_exists( 'Puc_v4_Factory' ) ) {
-			require_once MAI_AEC_INCLUDES_DIR . 'vendor/plugin-update-checker/plugin-update-checker.php'; // 4.4
-		}
-		$updater = Puc_v4_Factory::buildUpdateChecker( 'https://github.com/maithemewp/mai-ads-extra-content/', __FILE__, 'mai-ads-extra-content' );
-	}
-
-	/**
-	 * Include required files.
-	 *
-	 * @access  private
-	 * @since   0.1.0
-	 * @return  void
-	 */
-	private function includes() {
-		// Vendor.
-		require_once MAI_AEC_INCLUDES_DIR . 'vendor/CMB2/init.php';
-		// Internal.
-		foreach ( glob( MAI_AEC_INCLUDES_DIR . '*.php' ) as $file ) { include $file; }
-		foreach ( glob( MAI_AEC_INCLUDES_DIR . 'widgets/*.php' ) as $file ) { include $file; }
 	}
 
 }
