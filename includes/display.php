@@ -275,41 +275,40 @@ function maiaec_get_display_singular_in_content( $key, $location ) {
 			return $content;
 		}
 
-		// Suppress errors.
-		libxml_use_internal_errors( true );
-
-		// Create the new document.
-		$dom = new DOMDocument;
-
-		// Not sure we need these.
-		$dom->preserveWhiteSpace = false;
-		$dom->formatOutput       = true;
-
-		/**
-		 * @todo: Follow some strictness from here
-		 * @link https://gist.github.com/tommcfarlin/44178197b6878eb43e369cf6e5de09fc#file-02-acme-add-image-attrbutes-php
-		 */
-
 		/**
 		 * Load the content in the document HTML.
 		 *
+		 * @link  http://php.net/manual/en/domdocument.savehtml.php#121444
+		 *
 		 * We need to wrap in another element (<html>) so things don't blow up.
 		 *
-		 * @link http://php.net/manual/en/domdocument.savehtml.php#121444
 		 * "When saving HTML fragment initiated with LIBXML_HTML_NOIMPLIED option, it will end up being "broken" as libxml requires root element.
 		 * libxml will attempt to fix the fragment by adding closing tag at the end of string based on the first opened tag it encounters in the fragment."
 		 *
 		 * LIBXML_HTML_NOIMPLIED turns off the automatic adding of implied html/body elements.
 		 * LIBXML_HTML_NODEFDTD prevents a default doctype being added when one is not found.
 		 */
-		$dom->loadHTML( mb_convert_encoding( '<html>' . $content . '</html>', 'HTML-ENTITIES', 'UTF-8' ), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
+		$content = mb_convert_encoding( '<html>' . $content . '</html>', 'HTML-ENTITIES', "UTF-8" );
 
+		// Create the new document.
+		$dom = new DOMDocument;
+
+		// Suppress errors.
+		libxml_use_internal_errors( true );
+
+		// Load the content.
+		$dom->loadHTML( $content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
+
+		// Get the elements.
 		$xpath    = new DOMXPath( $dom );
 		$elements = $xpath->query( 'p|div' );
 
 		$item = 0;
 
+		// If we have elements.
 		if ( $elements->length ) {
+
+			// Loop through the elements.
 			foreach ( $elements as $element ) {
 
 				// First ad would be after the first element.
@@ -319,12 +318,17 @@ function maiaec_get_display_singular_in_content( $key, $location ) {
 				if ( ! isset( $ads[ $item ] ) || empty( $ads[ $item ] ) ) {
 					continue;
 				}
-				$fragment = $dom->createDocumentFragment();
-				$fragment->appendXml( $ads[ $item ] );
-				$element->appendChild( $fragment );
+
+				// Get the new content.
+				$new_content = maiaec_get_dom_with_new_content( $ads[ $item ], $dom );
+
+				foreach( $new_content as $new ) {
+					$element->appendChild( $new );
+				}
 			}
 		}
 
+		// Prepare the new content.
 		$content = $dom->saveHTML( $dom->documentElement );
 
 		/**
@@ -337,6 +341,42 @@ function maiaec_get_display_singular_in_content( $key, $location ) {
 		return $content;
 
 	}, 30, 1 );
+}
+
+/**
+ * Parses HTML into DOMElements.
+ *
+ * @since   0.9.0
+ * @link    https://stackoverflow.com/questions/12376686/php-dom-append-html-to-existing-document-without-domdocumentfragmentappendxml
+ *
+ * @param   string              $html          The raw html to transform.
+ * @param   object|DOMDocument  $existing_dom  The existing document to import the nodes into.
+ *
+ * @return  array  DOMElements on success or an empty array on failure
+ */
+function maiaec_get_dom_with_new_content( $html, $existing_dom ) {
+	// Create the new document.
+	$dom = new DOMDocument;
+	// Suppress errors.
+	libxml_use_internal_errors( true );
+	// Load the HTML.
+	$dom->loadHTML( '<div id="maiaec-temporary-dom-wrapper">' . $html . '</div>' );
+	// Get elements ready.
+	$elements = array();
+	// Get the actual content/nodes.
+	$children = $dom->getElementById( 'maiaec-temporary-dom-wrapper' )->childNodes;
+	// If we have content.
+	if ( $children ) {
+		// Loop through the nodes.
+		foreach( $children as $child ) {
+			// Add this node to the existing dom.
+			$child = $existing_dom->importNode( $child, true );
+			// Add node to our elements.
+			array_push( $elements, $child );
+		}
+	}
+	// Send it home.
+	return $elements;
 }
 
 /**
@@ -381,7 +421,7 @@ function maiaec_is_display( $location ) {
  * @return  mixed string|HTML
  */
 function maiaec_get_processed_content( $content ) {
-	if ( class_exists( 'Mai_Theme_Engine' ) ) {
+	if ( function_exists( 'mai_get_processed_content' ) ) {
 		return mai_get_processed_content( $content );
 	} else {
 		global $wp_embed;
