@@ -175,13 +175,13 @@ final class Mai_AEC {
 
 	/**
 	 * Check if Genesis is running.
-	 * This was taken from https://github.com/copyblogger/genesis-connect-woocommerce/blob/develop/genesis-connect-woocommerce.php.
+	 * This was originally taken from https://github.com/copyblogger/genesis-connect-woocommerce/blob/develop/genesis-connect-woocommerce.php.
 	 *
 	 * @return  void
 	 */
 	public function requirements() {
 		/**
-		 * If Genesis is not the active theme, deactivate and die.
+		 * If Genesis is not the parent theme, deactivate and show a notice.
 		 *
 		 * This was taken from https://github.com/copyblogger/genesis-connect-woocommerce/blob/develop/genesis-connect-woocommerce.php.
 		 */
