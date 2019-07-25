@@ -61,7 +61,6 @@ function maiaec_register_metabox() {
 		'type' => 'title',
 	) );
 
-
 	$cmb->add_field( array(
 		'name'            => __( 'Before Header', 'mai-ads-extra-content' ),
 		'id'              => 'mai_ad_header_before',
@@ -326,6 +325,7 @@ function maiaec_get_group_ad_field_config() {
  * @return mixed           Option value
  */
 function maiaec_get_option( $key = '', $default = null ) {
+
 	if ( function_exists( 'cmb2_get_option' ) ) {
 		// Use cmb2_get_option as it passes through some key filters.
 		return cmb2_get_option( 'mai_aec', $key, $default );
