@@ -5,7 +5,7 @@
  * Plugin URI:      https://maitheme.com
  * Description:     Enable flexible ad locations and extra content areas throughout Mai Theme & Genesis child themes.
  * Text Domain:     mai-ads-extra-content
- * Version:         0.8.3
+ * Version:         0.9.0
  *
  * Author:          MaiTheme.com
  * Author URI:      https://maitheme.com
@@ -90,7 +90,7 @@ final class Mai_AEC {
 
 		// Plugin version.
 		if ( ! defined( 'MAI_AEC_VERSION' ) ) {
-			define( 'MAI_AEC_VERSION', '0.8.3' );
+			define( 'MAI_AEC_VERSION', '0.9.0' );
 		}
 
 		// Plugin Folder Path.
