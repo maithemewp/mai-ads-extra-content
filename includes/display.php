@@ -275,38 +275,32 @@ function maiaec_get_display_singular_in_content( $key, $location ) {
 			return $content;
 		}
 
-		/**
-		 * Load the content in the document HTML.
-		 *
-		 * @link  http://php.net/manual/en/domdocument.savehtml.php#121444
-		 *
-		 * We need to wrap in another element (<html>) so things don't blow up.
-		 *
-		 * "When saving HTML fragment initiated with LIBXML_HTML_NOIMPLIED option, it will end up being "broken" as libxml requires root element.
-		 * libxml will attempt to fix the fragment by adding closing tag at the end of string based on the first opened tag it encounters in the fragment."
-		 *
-		 * LIBXML_HTML_NOIMPLIED turns off the automatic adding of implied html/body elements.
-		 * LIBXML_HTML_NODEFDTD prevents a default doctype being added when one is not found.
-		 */
-		$content = mb_convert_encoding( '<html>' . $content . '</html>', 'HTML-ENTITIES', "UTF-8" );
-
 		// Create the new document.
 		$dom = new DOMDocument;
 
-		// Suppress errors.
-		libxml_use_internal_errors( true );
+		// Modify state.
+		$libxml_previous_state = libxml_use_internal_errors( true );
 
-		// Load the content.
-		$dom->loadHTML( $content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
+		// Load the content in the document HTML.
+		$dom->loadHTML( mb_convert_encoding( $content, 'HTML-ENTITIES', "UTF-8" ) );
+
+		// Handle errors.
+		libxml_clear_errors();
+
+		// Restore.
+		libxml_use_internal_errors( $libxml_previous_state );
+
+		// $body = $dom->getElementsByTagName( 'body' );
+		// vd( $body[0]->childNodes );
 
 		// Get the elements.
 		$xpath    = new DOMXPath( $dom );
-		$elements = $xpath->query( 'p|div' );
-
-		$item = 0;
+		$elements = $xpath->query( '/html/body/p|/html/body/div' );
 
 		// If we have elements.
 		if ( $elements->length ) {
+
+			$item = 0;
 
 			// Loop through the elements.
 			foreach ( $elements as $element ) {
@@ -322,8 +316,11 @@ function maiaec_get_display_singular_in_content( $key, $location ) {
 				// Get the new content.
 				$new_content = maiaec_get_dom_with_new_content( $ads[ $item ], $dom );
 
+				// Loop through it.
 				foreach( $new_content as $new ) {
-					$element->appendChild( $new );
+
+					// Insert after the element. There is no insertAfter so we need to get tricky.
+					$element->parentNode->insertBefore( $new, $element->nextSibling );
 				}
 			}
 		}
@@ -331,11 +328,8 @@ function maiaec_get_display_singular_in_content( $key, $location ) {
 		// Prepare the new content.
 		$content = $dom->saveHTML( $dom->documentElement );
 
-		/**
-		 * This removes the <html> (6 chars) from the start
-		 * and </html> (7 chars) from the end.
-		 */
-		$content = substr( $content, 6, -7 );
+		// Save the new content.
+		// $content = $dom->saveHTML();
 
 		// Bring it home.
 		return $content;
@@ -355,18 +349,33 @@ function maiaec_get_display_singular_in_content( $key, $location ) {
  * @return  array  DOMElements on success or an empty array on failure
  */
 function maiaec_get_dom_with_new_content( $html, $existing_dom ) {
+
 	// Create the new document.
 	$dom = new DOMDocument;
-	// Suppress errors.
-	libxml_use_internal_errors( true );
+
+	// Modify state.
+	$libxml_previous_state = libxml_use_internal_errors( true );
+
+	// Load the content in the document HTML.
+	$dom->loadHTML( mb_convert_encoding( $html, 'HTML-ENTITIES', "UTF-8" ) );
+
+	// Handle errors.
+	libxml_clear_errors();
+
+	// Restore.
+	libxml_use_internal_errors( $libxml_previous_state );
+
 	// Load the HTML.
 	$dom->loadHTML( '<div id="maiaec-temporary-dom-wrapper">' . $html . '</div>' );
+
 	// Get elements ready.
 	$elements = array();
+
 	// Get the actual content/nodes.
 	$children = $dom->getElementById( 'maiaec-temporary-dom-wrapper' )->childNodes;
+
 	// If we have content.
-	if ( $children ) {
+	if ( $children->length ) {
 		// Loop through the nodes.
 		foreach( $children as $child ) {
 			// Add this node to the existing dom.
@@ -375,6 +384,7 @@ function maiaec_get_dom_with_new_content( $html, $existing_dom ) {
 			array_push( $elements, $child );
 		}
 	}
+
 	// Send it home.
 	return $elements;
 }
