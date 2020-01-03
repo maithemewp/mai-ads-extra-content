@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.9.1 (1/3/20)
+* Fixed: Entry content ads getting added inside other elements.
+
 ## 0.9.0 (7/25/19)
 * Fixed: Issues when using certain HTML in content locations. Changed from `appendXml()` to adding new elements to the DOM.
 * Fixed: Now safely deactivates and shows notice if not using a Genesis child theme.
