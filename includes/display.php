@@ -290,9 +290,6 @@ function maiaec_get_display_singular_in_content( $key, $location ) {
 		// Restore.
 		libxml_use_internal_errors( $libxml_previous_state );
 
-		// $body = $dom->getElementsByTagName( 'body' );
-		// vd( $body[0]->childNodes );
-
 		// Get the elements.
 		$xpath    = new DOMXPath( $dom );
 		$elements = $xpath->query( '/html/body/p|/html/body/div' );
@@ -326,10 +323,7 @@ function maiaec_get_display_singular_in_content( $key, $location ) {
 		}
 
 		// Prepare the new content.
-		$content = $dom->saveHTML( $dom->documentElement );
-
-		// Save the new content.
-		// $content = $dom->saveHTML();
+		$content = $dom->saveHTML();
 
 		// Bring it home.
 		return $content;
