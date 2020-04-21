@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.10.0 (4/21/20)
+* Changed: Update dependencies, including CMB2 to 2.7.0.
+
 ## 0.9.1 (1/3/20)
 * Fixed: Entry content ads getting added inside other elements.
 
