@@ -5,7 +5,6 @@
  */
 add_action( 'cmb2_admin_init', 'maiaec_register_metabox' );
 function maiaec_register_metabox() {
-
 	/**
 	 * Registers options page menu item and form.
 	 */
@@ -14,7 +13,7 @@ function maiaec_register_metabox() {
 		'title'        => __( 'Ads & Extra Content', 'mai-ads-extra-content' ),
 		'object_types' => array( 'options-page' ),
 		'option_key'   => 'mai_aec', // The option key and admin menu page slug.
-		'parent_slug'  => 'genesis', // Make options page a submenu item of the themes menu.
+		'parent_slug'  => function_exists( 'mai_get_engine_theme' ) ? 'mai-theme' : 'genesis', // Make options page a submenu item of the themes menu.
 	) );
 
 	$cmb->add_field( array(
