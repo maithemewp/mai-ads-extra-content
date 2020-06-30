@@ -13,7 +13,7 @@ add_action( 'genesis_before_content_sidebar_wrap',  'maiaec_header_after', 12 );
 add_action( 'genesis_before_footer',                'maiaec_before_footer' );
 add_action( 'genesis_before_entry',                 'maiaec_before_entry' );
 add_action( 'genesis_entry_content',                'maiaec_before_entry_content' );
-add_action( 'genesis_entry_content',                'maiaec_entry_content' );
+add_action( 'genesis_before',                       'maiaec_entry_content' );
 add_action( 'genesis_entry_content',                'maiaec_after_entry_content', 20 );
 add_action( 'genesis_after_entry',                  'maiaec_after_entry_a', 4 );
 add_action( 'genesis_after_entry',                  'maiaec_after_entry_b', 12 );
@@ -265,8 +265,8 @@ function maiaec_get_display_singular_in_content( $key, $location ) {
 	// Add placeholder after 'n' paragraph.
 	add_filter( 'the_content', function( $content ) use ( $ads, $location ) {
 
-		// Bail if not the main query.
-		if ( ! is_main_query() ) {
+		// Bail if not the main query and in the loop.
+		if ( ! ( is_main_query() && in_the_loop() ) ) {
 			return $content;
 		}
 
@@ -291,8 +291,15 @@ function maiaec_get_display_singular_in_content( $key, $location ) {
 		libxml_use_internal_errors( $libxml_previous_state );
 
 		// Get the elements.
-		$xpath    = new DOMXPath( $dom );
-		$elements = $xpath->query( '/html/body/p|/html/body/div' );
+		$xpath = new DOMXPath( $dom );
+		$elements = [ 'p', 'div', 'blockquote' ];
+		$elements = apply_filters( 'maiaec_count_content_elements', $elements );
+		$query    = [];
+		foreach ( $elements as $element ) {
+			$query[] = '/html/body/' . $element;
+		}
+
+		$elements = $xpath->query( implode( '|', $query ) );
 
 		// If we have elements.
 		if ( $elements->length ) {
