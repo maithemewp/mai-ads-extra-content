@@ -130,8 +130,8 @@ final class Mai_AEC {
 	private function includes() {
 		// Autoload.
 		require_once __DIR__ . '/vendor/autoload.php';
-		// Vendor.
-		require_once MAI_AEC_INCLUDES_DIR . 'vendor/CMB2/init.php';
+		// CMB2.
+		require_once __DIR__ . '/vendor/cmb2/cmb2/init.php';
 		// Internal.
 		foreach ( glob( MAI_AEC_INCLUDES_DIR . '*.php' ) as $file ) { include $file; }
 		foreach ( glob( MAI_AEC_INCLUDES_DIR . 'widgets/*.php' ) as $file ) { include $file; }
@@ -144,6 +144,17 @@ final class Mai_AEC {
 	 * @return  void
 	 */
 	public function hooks() {
+		/**
+		 * Make sure plugin works when symlinked.
+		 *
+		 * @link https://github.com/CMB2/CMB2/wiki/Troubleshooting#cmb2-urls-issues
+		 *
+		 * @since 0.11.0
+		 */
+		add_filter( 'cmb2_meta_box_url', function( $url ) {
+			$url = str_replace( '/Users/JiveDig/Plugins/', '/wp-content/plugins/', $url );
+			return $url;
+		});
 		add_action( 'admin_init', array( $this, 'updater' ) );
 		add_action( 'admin_init', array( $this, 'requirements' ) );
 	}
