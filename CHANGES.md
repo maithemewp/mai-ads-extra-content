@@ -1,7 +1,12 @@
 # Changelog
 
+## 0.11.0 (6/30/20)
+* Added: blockquote is now counted for in content ads and extra content.
+* Added: `maiaec_count_content_elements` filter for which elements should be counted when displaying in content ads or extra content.
+* Changed: Update CMB2 to 2.7.0.
+
 ## 0.10.0 (4/21/20)
-* Changed: Update dependencies, including CMB2 to 2.7.0.
+* Changed: Update dependencies.
 
 ## 0.9.1 (1/3/20)
 * Fixed: Entry content ads getting added inside other elements.

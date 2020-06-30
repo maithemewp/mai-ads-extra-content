@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "31fed6438f26d1baedaddb2b87bbc909",
+    "content-hash": "2bab12b68092a65ab5a50c6f6f6ccb97",
     "packages": [
         {
             "name": "cmb2/cmb2",
-            "version": "v2.7.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/CMB2/CMB2.git",
-                "reference": "438c26dda7ac110d0741448d65614b3ec6379034"
+                "reference": "058085b36fb0d2f3aa134cc82a7af9a36b390fc7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CMB2/CMB2/zipball/438c26dda7ac110d0741448d65614b3ec6379034",
-                "reference": "438c26dda7ac110d0741448d65614b3ec6379034",
+                "url": "https://api.github.com/repos/CMB2/CMB2/zipball/058085b36fb0d2f3aa134cc82a7af9a36b390fc7",
+                "reference": "058085b36fb0d2f3aa134cc82a7af9a36b390fc7",
                 "shasum": ""
             },
             "require": {
@@ -57,7 +57,7 @@
                 "plugin",
                 "wordpress"
             ],
-            "time": "2020-01-21T17:49:50+00:00"
+            "time": "2020-04-30T13:06:07+00:00"
         },
         {
             "name": "yahnis-elsts/plugin-update-checker",
@@ -109,7 +109,9 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "cmb2/cmb2": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
