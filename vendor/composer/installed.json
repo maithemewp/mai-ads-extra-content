@@ -1,17 +1,17 @@
 [
     {
         "name": "cmb2/cmb2",
-        "version": "v2.7.0",
-        "version_normalized": "2.7.0.0",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
         "source": {
             "type": "git",
             "url": "https://github.com/CMB2/CMB2.git",
-            "reference": "438c26dda7ac110d0741448d65614b3ec6379034"
+            "reference": "058085b36fb0d2f3aa134cc82a7af9a36b390fc7"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/CMB2/CMB2/zipball/438c26dda7ac110d0741448d65614b3ec6379034",
-            "reference": "438c26dda7ac110d0741448d65614b3ec6379034",
+            "url": "https://api.github.com/repos/CMB2/CMB2/zipball/058085b36fb0d2f3aa134cc82a7af9a36b390fc7",
+            "reference": "058085b36fb0d2f3aa134cc82a7af9a36b390fc7",
             "shasum": ""
         },
         "require": {
@@ -25,9 +25,9 @@
         "suggest": {
             "composer/installers": "~1.0"
         },
-        "time": "2020-01-21T17:49:50+00:00",
+        "time": "2020-04-30T13:06:07+00:00",
         "type": "wordpress-plugin",
-        "installation-source": "dist",
+        "installation-source": "source",
         "notification-url": "https://packagist.org/downloads/",
         "license": [
             "GPL-2.0-or-later"
