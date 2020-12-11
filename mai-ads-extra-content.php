@@ -2,13 +2,13 @@
 
 /**
  * Plugin Name:     Mai Ads & Extra Content
- * Plugin URI:      https://maitheme.com
+ * Plugin URI:      https://bizbudding.com/products/mai-ads-extra-content/
  * Description:     Enable flexible ad locations and extra content areas throughout Mai Theme & Genesis child themes.
  * Text Domain:     mai-ads-extra-content
- * Version:         0.11.3
+ * Version:         0.11.4
  *
- * Author:          MaiTheme.com
- * Author URI:      https://maitheme.com
+ * Author:          BizBudding
+ * Author URI:      https://bizbudding.com/
  */
 
 // Exit if accessed directly.
@@ -90,7 +90,7 @@ final class Mai_AEC {
 
 		// Plugin version.
 		if ( ! defined( 'MAI_AEC_VERSION' ) ) {
-			define( 'MAI_AEC_VERSION', '0.11.3' );
+			define( 'MAI_AEC_VERSION', '0.11.4' );
 		}
 
 		// Plugin Folder Path.
@@ -182,6 +182,11 @@ final class Mai_AEC {
 
 		// Setup the updater.
 		$updater = Puc_v4_Factory::buildUpdateChecker( 'https://github.com/maithemewp/mai-ads-extra-content/', __FILE__, 'mai-ads-extra-content' );
+
+		// Maybe set github api token.
+		if ( defined( 'MAI_GITHUB_API_TOKEN' ) ) {
+			$updater->setAuthentication( MAI_GITHUB_API_TOKEN );
+		}
 	}
 
 	/**
