@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.11.4 (12/11/20)
+* Changed: Plugin header consistency.
+* Changed: Update dependencies.
+
 ## 0.11.0 (6/30/20)
 * Added: blockquote is now counted for in content ads and extra content.
 * Added: `maiaec_count_content_elements` filter for which elements should be counted when displaying in content ads or extra content.
