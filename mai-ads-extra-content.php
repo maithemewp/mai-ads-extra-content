@@ -5,7 +5,7 @@
  * Plugin URI:      https://bizbudding.com/products/mai-ads-extra-content/
  * Description:     Enable flexible ad locations and extra content areas throughout Mai Theme & Genesis child themes.
  * Text Domain:     mai-ads-extra-content
- * Version:         0.11.4
+ * Version:         0.11.5
  *
  * Author:          BizBudding
  * Author URI:      https://bizbudding.com
@@ -90,7 +90,7 @@ final class Mai_AEC {
 
 		// Plugin version.
 		if ( ! defined( 'MAI_AEC_VERSION' ) ) {
-			define( 'MAI_AEC_VERSION', '0.11.4' );
+			define( 'MAI_AEC_VERSION', '0.11.5' );
 		}
 
 		// Plugin Folder Path.
@@ -186,6 +186,16 @@ final class Mai_AEC {
 		// Maybe set github api token.
 		if ( defined( 'MAI_GITHUB_API_TOKEN' ) ) {
 			$updater->setAuthentication( MAI_GITHUB_API_TOKEN );
+		}
+
+		// Add icons for Dashboard > Updates screen.
+		if ( function_exists( 'mai_get_updater_icons' ) && $icons = mai_get_updater_icons() ) {
+			$updater->addResultFilter(
+				function ( $info ) use ( $icons ) {
+					$info->icons = $icons;
+					return $info;
+				}
+			);
 		}
 	}
 
