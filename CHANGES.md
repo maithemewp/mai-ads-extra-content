@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.11.5 (1/13/21)
+## 0.11.5 (2/13/21)
 * Added: Mai logo icon.
 * Changed: Update CMB2 to 2.8.0
 
