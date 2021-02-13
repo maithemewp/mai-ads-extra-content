@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.11.5 (1/13/21)
+* Added: Mai logo icon.
+* Changed: Update CMB2 to 2.8.0
+
 ## 0.11.4 (12/11/20)
 * Changed: Plugin header consistency.
 * Changed: Update dependencies.
