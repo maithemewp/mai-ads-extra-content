@@ -1,6 +1,9 @@
 # Changelog
 
-## 0.11.5 (1/13/21)
+## 0.11.6 (2/24/21)
+* Fixed: Rollback CMB2 to 2.7.0 to fix admin page url not working. See https://github.com/CMB2/CMB2/issues/1410.
+
+## 0.11.5 (2/13/21)
 * Added: Mai logo icon.
 * Changed: Update CMB2 to 2.8.0
 

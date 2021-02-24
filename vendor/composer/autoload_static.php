@@ -11,9 +11,14 @@ class ComposerStaticInitdd03b2e1282f3eb0204a0a5e2bd98d37
         'ad901de1e5d16b81f427bfe3dc3de508' => __DIR__ . '/..' . '/cmb2/cmb2/init.php',
     );
 
+    public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+    );
+
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
+            $loader->classMap = ComposerStaticInitdd03b2e1282f3eb0204a0a5e2bd98d37::$classMap;
 
         }, null, ClassLoader::class);
     }
