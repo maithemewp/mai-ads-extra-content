@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.11.7 (3/1/21)
+* Fixed: Make sure admin menu displays for non-Mai themes.
+
 ## 0.11.6 (2/24/21)
 * Fixed: Rollback CMB2 to 2.7.0 to fix admin page url not working. See https://github.com/CMB2/CMB2/issues/1410.
 
