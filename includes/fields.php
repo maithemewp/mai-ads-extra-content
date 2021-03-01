@@ -13,7 +13,7 @@ function maiaec_register_metabox() {
 		'title'        => __( 'Ads & Extra Content', 'mai-ads-extra-content' ),
 		'object_types' => array( 'options-page' ),
 		'option_key'   => 'mai_aec', // The option key and admin menu page slug.
-		'parent_slug'  => class_exists( 'Mai_Theme_Engine' ) ? 'genesis' : 'mai-theme', // Make options page a submenu item of the themes menu.
+		'parent_slug'  => current_theme_supports( 'mai-engine' ) ? 'mai-theme' : 'genesis', // Make options page a submenu item of the themes menu.
 	) );
 
 	$cmb->add_field( array(
