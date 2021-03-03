@@ -30,7 +30,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '1ab0fe6168e872118d4ca0bd60d1b822e5e79d22',
+    'reference' => '7aedbf9bb320c12593066d7fee7f1768223fcfa4',
     'name' => '__root__',
   ),
   'versions' => 
@@ -42,16 +42,16 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '1ab0fe6168e872118d4ca0bd60d1b822e5e79d22',
+      'reference' => '7aedbf9bb320c12593066d7fee7f1768223fcfa4',
     ),
     'cmb2/cmb2' => 
     array (
-      'pretty_version' => 'v2.7.0',
-      'version' => '2.7.0.0',
+      'pretty_version' => 'v2.8.0',
+      'version' => '2.8.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '438c26dda7ac110d0741448d65614b3ec6379034',
+      'reference' => '8391c9ab88a564ca7c7b380e20152ca8554d5166',
     ),
     'yahnis-elsts/plugin-update-checker' => 
     array (
