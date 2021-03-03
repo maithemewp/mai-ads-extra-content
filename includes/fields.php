@@ -14,6 +14,7 @@ function maiaec_register_metabox() {
 		'object_types' => array( 'options-page' ),
 		'option_key'   => 'mai_aec', // The option key and admin menu page slug.
 		'parent_slug'  => current_theme_supports( 'mai-engine' ) ? 'mai-theme' : 'genesis', // Make options page a submenu item of the themes menu.
+		'priority'     => 10,
 	) );
 
 	$cmb->add_field( array(
