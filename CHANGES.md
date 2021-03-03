@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.11.8 (3/3/21)
+* Fixed: Bump CMB2 to 2.8.0 with fix for admin menu link not working.
+
 ## 0.11.7 (3/1/21)
 * Fixed: Make sure admin menu displays for non-Mai themes.
 
