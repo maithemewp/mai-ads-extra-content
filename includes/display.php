@@ -309,6 +309,18 @@ function maiaec_get_display_singular_in_content( $key, $location ) {
 			// Loop through the elements.
 			foreach ( $elements as $element ) {
 
+				$style = $element->getAttribute( 'style' );
+
+				// Skip if element is hidden via inline HTML.
+				if ( $style ) {
+					if ( false !== strpos ( $style, 'display:none' ) ) {
+						continue;
+					}
+					if ( false !== strpos ( $style, 'display: none' ) ) {
+						continue;
+					}
+				}
+
 				// First ad would be after the first element.
 				$item++;
 
