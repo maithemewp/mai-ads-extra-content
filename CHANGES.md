@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.11.10 (7/9/21)
+* Fixed: In content ads and extra content now skips elements that are hidden via display:none; inline styles.
+
+## 0.11.9 (3/5/21)
+* Changed: Bump CMB2 to 2.9.0.
+
 ## 0.11.8 (3/3/21)
 * Fixed: Bump CMB2 to 2.8.0 with fix for admin menu link not working.
 
