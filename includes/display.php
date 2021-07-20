@@ -313,10 +313,10 @@ function maiaec_get_display_singular_in_content( $key, $location ) {
 
 				// Skip if element is hidden via inline HTML.
 				if ( $style ) {
-					if ( false !== strpos ( $style, 'display:none' ) ) {
+					if ( false !== strpos( $style, 'display:none' ) ) {
 						continue;
 					}
-					if ( false !== strpos ( $style, 'display: none' ) ) {
+					if ( false !== strpos( $style, 'display: none' ) ) {
 						continue;
 					}
 				}
@@ -329,14 +329,18 @@ function maiaec_get_display_singular_in_content( $key, $location ) {
 					continue;
 				}
 
-				// Get the new content.
-				$new_content = maiaec_get_dom_with_new_content( $ads[ $item ], $dom );
+				// Build the HTML node.
+				$fragment = $dom->createDocumentFragment();
+				$fragment->appendXml( $ads[ $item ] );
 
-				// Loop through it.
-				foreach( $new_content as $new ) {
-
-					// Insert after the element. There is no insertAfter so we need to get tricky.
-					$element->parentNode->insertBefore( $new, $element->nextSibling );
+				/**
+				 * Add cta after this element. There is no insertAfter() in PHP ¯\_(ツ)_/¯.
+				 * @link https://gist.github.com/deathlyfrantic/cd8d7ef8ba91544cdf06
+				 */
+				if ( null === $element->nextSibling ) {
+					$element->parentNode->appendChild( $fragment );
+				} else {
+					$element->parentNode->insertBefore( $fragment, $element->nextSibling );
 				}
 			}
 		}
@@ -348,58 +352,6 @@ function maiaec_get_display_singular_in_content( $key, $location ) {
 		return $content;
 
 	}, 30, 1 );
-}
-
-/**
- * Parses HTML into DOMElements.
- *
- * @since   0.9.0
- * @link    https://stackoverflow.com/questions/12376686/php-dom-append-html-to-existing-document-without-domdocumentfragmentappendxml
- *
- * @param   string              $html          The raw html to transform.
- * @param   object|DOMDocument  $existing_dom  The existing document to import the nodes into.
- *
- * @return  array  DOMElements on success or an empty array on failure
- */
-function maiaec_get_dom_with_new_content( $html, $existing_dom ) {
-
-	// Create the new document.
-	$dom = new DOMDocument;
-
-	// Modify state.
-	$libxml_previous_state = libxml_use_internal_errors( true );
-
-	// Load the content in the document HTML.
-	$dom->loadHTML( mb_convert_encoding( $html, 'HTML-ENTITIES', "UTF-8" ) );
-
-	// Handle errors.
-	libxml_clear_errors();
-
-	// Restore.
-	libxml_use_internal_errors( $libxml_previous_state );
-
-	// Load the HTML.
-	$dom->loadHTML( '<div id="maiaec-temporary-dom-wrapper">' . $html . '</div>' );
-
-	// Get elements ready.
-	$elements = array();
-
-	// Get the actual content/nodes.
-	$children = $dom->getElementById( 'maiaec-temporary-dom-wrapper' )->childNodes;
-
-	// If we have content.
-	if ( $children->length ) {
-		// Loop through the nodes.
-		foreach( $children as $child ) {
-			// Add this node to the existing dom.
-			$child = $existing_dom->importNode( $child, true );
-			// Add node to our elements.
-			array_push( $elements, $child );
-		}
-	}
-
-	// Send it home.
-	return $elements;
 }
 
 /**
