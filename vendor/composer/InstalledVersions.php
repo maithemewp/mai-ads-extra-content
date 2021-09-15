@@ -32,7 +32,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '21b698b67815523b022c631eef7ac37d39ed3962',
+    'reference' => '59da9ae6585f88d6d85e1e299d3a4f8a9abcbd51',
     'name' => '__root__',
   ),
   'versions' => 
@@ -44,7 +44,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '21b698b67815523b022c631eef7ac37d39ed3962',
+      'reference' => '59da9ae6585f88d6d85e1e299d3a4f8a9abcbd51',
     ),
     'cmb2/cmb2' => 
     array (

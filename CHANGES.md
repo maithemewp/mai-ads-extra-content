@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.0 (9/15/21)
+* Bump to 1.0.0 since this has been officially released for a while.
+* Changed: Simplify rendering of in-content ads.
+
 ## 0.11.10 (7/9/21)
 * Fixed: In content ads and extra content now skips elements that are hidden via display:none; inline styles.
 
