@@ -348,7 +348,7 @@ function maiaec_get_display_singular_in_content( $key, $location ) {
 		}
 
 		// Prepare the new content.
-		$content = $dom->saveHTML();
+		$content = $dom->saveHTML( $dom->documentElement );
 
 		// Bring it home.
 		return $content;
