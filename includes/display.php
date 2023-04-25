@@ -417,7 +417,7 @@ function maiaec_get_processed_content( $content ) {
 /**
  * Get DOMDocument.
  *
- * @since TBD
+ * @since 1.1.0
  *
  * @param string $content
  *
