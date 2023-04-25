@@ -54,6 +54,9 @@ node_modules
 # PHPStorm
 .idea
 
+# Zip Files
+*.zip
+
 # Sass Cache
 *.sass-cache
 
@@ -69,3 +72,8 @@ vendor
 
 # General
 NOTES.md
+
+# Cypress
+/cypress.env.json
+/tests/cypress/videos
+/tests/cypress/screenshots

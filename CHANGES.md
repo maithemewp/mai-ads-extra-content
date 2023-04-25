@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.0 (4/25/23)
+* Fixed: Special characters causing issues with `appendXML()` error in some scenarios.
+* Changed: Updated updater and CMB2.
+
 ## 1.0.0 (9/15/21)
 * Bump to 1.0.0 since this has been officially released for a while.
 * Changed: Simplify rendering of in-content ads.

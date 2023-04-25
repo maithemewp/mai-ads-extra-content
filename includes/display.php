@@ -264,6 +264,10 @@ function maiaec_get_display_singular_in_content( $key, $location ) {
 
 	// Add placeholder after 'n' paragraph.
 	add_filter( 'the_content', function( $content ) use ( $ads, $location ) {
+		// Bail if no content.
+		if ( ! $content ) {
+			return $content;
+		}
 
 		// Bail if not the main query and in the loop.
 		if ( ! ( is_main_query() && in_the_loop() ) ) {
@@ -275,20 +279,8 @@ function maiaec_get_display_singular_in_content( $key, $location ) {
 			return $content;
 		}
 
-		// Create the new document.
-		$dom = new DOMDocument;
-
-		// Modify state.
-		$libxml_previous_state = libxml_use_internal_errors( true );
-
-		// Load the content in the document HTML.
-		$dom->loadHTML( mb_convert_encoding( $content, 'HTML-ENTITIES', "UTF-8" ) );
-
-		// Handle errors.
-		libxml_clear_errors();
-
-		// Restore.
-		libxml_use_internal_errors( $libxml_previous_state );
+		// Get DOMDocument.
+		$dom = maiaec_get_dom_document( $content );
 
 		// Get the elements.
 		$xpath = new DOMXPath( $dom );
@@ -329,24 +321,34 @@ function maiaec_get_display_singular_in_content( $key, $location ) {
 					continue;
 				}
 
-				// Build the HTML node.
-				$fragment = $dom->createDocumentFragment();
-				$fragment->appendXml( $ads[ $item ] );
+				/**
+				 * Build the temporary dom.
+				 * Special characters were causing issues with `appendXML()`.
+				 *
+				 * @link https://stackoverflow.com/questions/4645738/domdocument-appendxml-with-special-characters
+				 * @link https://www.py4u.net/discuss/974358
+				 */
+				$tmp  = maiaec_get_dom_document( $ads[ $item ] );
+				$node = $dom->importNode( $tmp->documentElement, true );
+
+				if ( ! $node ) {
+					return $content;
+				}
 
 				/**
 				 * Add cta after this element. There is no insertAfter() in PHP ¯\_(ツ)_/¯.
 				 * @link https://gist.github.com/deathlyfrantic/cd8d7ef8ba91544cdf06
 				 */
 				if ( null === $element->nextSibling ) {
-					$element->parentNode->appendChild( $fragment );
+					$element->parentNode->appendChild( $node );
 				} else {
-					$element->parentNode->insertBefore( $fragment, $element->nextSibling );
+					$element->parentNode->insertBefore( $node, $element->nextSibling );
 				}
 			}
 		}
 
 		// Prepare the new content.
-		$content = $dom->saveHTML();
+		$content = $dom->saveHTML( $dom->documentElement );
 
 		// Bring it home.
 		return $content;
@@ -410,4 +412,36 @@ function maiaec_get_processed_content( $content ) {
 		$content = $wp_embed->run_shortcode( $content );
 		return $content;
 	}
+}
+
+/**
+ * Get DOMDocument.
+ *
+ * @since 1.1.0
+ *
+ * @param string $content
+ *
+ * @return DOMDocument
+ */
+function maiaec_get_dom_document( $content ) {
+	if ( ! $content ) {
+		return false;
+	}
+
+	// Create the new document.
+	$dom = new DOMDocument;
+
+	// Modify state.
+	$libxml_previous_state = libxml_use_internal_errors( true );
+
+	// Load the content in the document HTML.
+	$dom->loadHTML( mb_convert_encoding( $content, 'HTML-ENTITIES', "UTF-8" ) );
+
+	// Handle errors.
+	libxml_clear_errors();
+
+	// Restore.
+	libxml_use_internal_errors( $libxml_previous_state );
+
+	return $dom;
 }
