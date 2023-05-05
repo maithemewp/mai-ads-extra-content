@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.1.1 (5/5/23)
+* Fixed: Invalid markup in some scenarios.
+
 ## 1.1.0 (4/25/23)
 * Fixed: Special characters causing issues with `appendXML()` error in some scenarios.
 * Changed: Updated updater and CMB2.

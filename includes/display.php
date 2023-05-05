@@ -288,10 +288,10 @@ function maiaec_get_display_singular_in_content( $key, $location ) {
 		$elements = apply_filters( 'maiaec_count_content_elements', $elements );
 		$query    = [];
 		foreach ( $elements as $element ) {
-			$query[] = '/html/body/' . $element;
+			$query[] = '/' . $element;
 		}
 
-		$elements = $xpath->query( implode( '|', $query ) );
+		$elements = $xpath->query( implode( ' | ', $query ) );
 
 		// If we have elements.
 		if ( $elements->length ) {
@@ -348,7 +348,7 @@ function maiaec_get_display_singular_in_content( $key, $location ) {
 		}
 
 		// Prepare the new content.
-		$content = $dom->saveHTML( $dom->documentElement );
+		$content = $dom->saveHTML();
 
 		// Bring it home.
 		return $content;
@@ -419,23 +419,38 @@ function maiaec_get_processed_content( $content ) {
  *
  * @since 1.1.0
  *
- * @param string $content
+ * @param string $html
  *
  * @return DOMDocument
  */
-function maiaec_get_dom_document( $content ) {
-	if ( ! $content ) {
+function maiaec_get_dom_document( $html ) {
+	if ( ! $html ) {
 		return false;
 	}
 
 	// Create the new document.
-	$dom = new DOMDocument;
+	$dom = new DOMDocument();
 
 	// Modify state.
 	$libxml_previous_state = libxml_use_internal_errors( true );
 
+	// Encode.
+	$html = mb_convert_encoding( $html, 'HTML-ENTITIES', 'UTF-8' );
+
 	// Load the content in the document HTML.
-	$dom->loadHTML( mb_convert_encoding( $content, 'HTML-ENTITIES', "UTF-8" ) );
+	$dom->loadHTML( "<div>$html</div>" );
+
+	// Handle wraps.
+	$container = $dom->getElementsByTagName('div')->item(0);
+	$container = $container->parentNode->removeChild( $container );
+
+	while ( $dom->firstChild ) {
+		$dom->removeChild( $dom->firstChild );
+	}
+
+	while ( $container->firstChild ) {
+		$dom->appendChild( $container->firstChild );
+	}
 
 	// Handle errors.
 	libxml_clear_errors();
