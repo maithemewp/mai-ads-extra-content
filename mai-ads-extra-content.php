@@ -155,6 +155,27 @@ final class Mai_AEC {
 		});
 		add_action( 'plugins_loaded', array( $this, 'updater' ) );
 		add_action( 'admin_init',     array( $this, 'requirements' ) );
+		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'add_plugin_links' ) );
+	}
+
+	/**
+	 * Add plugin action links.
+	 *
+	 * @since TBD
+	 *
+	 * @param array $actions The existing actions.
+	 *
+	 * @return array
+	 */
+	public function add_plugin_links( $actions ) {
+		$custom = array(
+			'settings' => sprintf(
+				'<a href="%s">%s</a>',
+				admin_url( 'admin.php?page=mai_aec' ),
+				__( 'Settings', 'mai-ads-extra-content' )
+			),
+		);
+		return array_merge( $custom, $actions );
 	}
 
 	/**
